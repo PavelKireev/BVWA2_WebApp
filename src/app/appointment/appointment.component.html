@@ -1,0 +1,65 @@
+﻿<div *ngIf="!isUserAuthenticated()">
+  <login></login>
+</div>
+<div *ngIf="isUserAuthenticated() && (isAdmin() || isDoctor)">
+  <div *ngIf="isUserAuthenticated()" style="color:green;">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Doctor</th>
+        <th scope="col">Patient</th>
+        <th scope="col">Time</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+
+      </tr>
+      </thead>
+      <tbody *ngFor="let appointment of appointmentTable; let i = index">
+      <tr>
+        <th scope="row">{{i + 1}}</th>
+        <td>{{appointment.doctorEmail}}</td>
+        <td>{{appointment.patientEmail}}</td>
+        <td>{{appointment.dateTime}}</td>
+        <td><button type="button" class="btn btn-danger" (click)="delete($event, appointment.id)">Delete</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class=" mt-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Doctor</mat-label>
+          <mat-select (selectionChange)="onDoctorChange($event)" #doctorSelector>
+            <mat-option *ngFor="let doctor of doctorList" [value]="doctor">
+              {{doctor}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class=" mt-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Patient</mat-label>
+          <mat-select #patientSelector>
+            <mat-option *ngFor="let patient of patientList" [value]="patient">
+              {{patient}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class=" mt-2">
+          <mat-form-field appearance="fill">
+            <mat-label>Datum a cas</mat-label>
+            <mat-select #dateTimeSelector>
+              <mat-option *ngFor="let dateTime of dateTimeList" [value]="dateTime">
+                {{dateTime}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button (click)="update(dateTimeSelector.value, doctorSelector.value, patientSelector.value)"
+                class="btn btn-primary mt-3">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

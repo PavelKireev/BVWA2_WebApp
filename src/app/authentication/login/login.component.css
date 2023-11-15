@@ -1,0 +1,120 @@
+/* Center the form horizontally */
+.form-signin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 70vh;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* Style the form legend */
+legend {
+  font-size: 4.5rem;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #003157;
+}
+
+/* Style the input fields and buttons */
+.form-group .form-control {
+  font-size: 22px;
+}
+
+.form-control {
+  height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid hsla(0, 0%, 0%, 0.3);
+  border-radius: 15px;
+  color: #34495e;
+}
+
+.form-control:focus {
+  outline: none;
+  border: 3px solid #1ba4ff;
+  color: #2c3e50;
+}
+
+/* Center the button */
+button[type="submit"] {
+  display: block;
+  margin: 0 auto;
+  height: 50px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 30px;
+}
+
+/* Style the primary button */
+.btn-primary {
+  background-color: var(--bs-blue);
+  border: none;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 5px hsla(0, 0%, 50%, 0.6);
+}
+
+.btn-primary:hover {
+  background-color: #00479b;
+}
+
+
+/* Style the error message */
+.alert-danger {
+  color: #ff0909;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.alert-danger:before {
+  content: "⚠ ";
+}
+
+.alert-danger:after {
+  content: " 🤫";
+}
+
+.alert-danger:empty {
+  display: none;
+}
+
+.form-signin .register-p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #003157;
+}
+
+.form-signin .register-p .registration-link {
+  font-size: 18px;
+  text-decoration: none;
+  color: #003157;
+  font-weight: 600;
+  position: relative;
+}
+
+.registration-link::before {
+  content: '';
+  background-color: hsl(210, 100%, 60%, 0.5);
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: 3.75em;
+  height: 5px;
+  z-index: 0;
+  transition: all .3s ease-in-out;
+}
+
+a:hover::before {
+  bottom: 0;
+  height: 100%;
+}
+
+

@@ -1,0 +1,57 @@
+<div class="card">
+  <div class="card-body">
+    <h1 class="card-title mb-4">Sign Up</h1>
+    <form (ngSubmit)="registerUser(registerForm.value)" [formGroup]="registerForm" autocomplete="off" novalidate>
+      <div class="mb-3 row">
+        <label class="col-form-label col-sm-2" for="firstName">First Name</label>
+        <div class="col-md-5">
+          <input class="form-control" formControlName="firstName" id="firstName" type="text"/>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label class="col-form-label col-sm-2" for="lastName">Last Name</label>
+        <div class="col-md-5">
+          <input class="form-control" formControlName="lastName" id="lastName" type="text"/>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label class="col-form-label col-sm-2" for="email">Email</label>
+        <div class="col-md-5">
+          <input class="form-control" formControlName="email" id="email" type="email"/>
+        </div>
+        <div class="col-md-5">
+          <em *ngIf="validateControl('email') && hasError('email', 'email')">
+            Please provide a valid email</em>
+          <em *ngIf="validateControl('email') && hasError('email', 'required')">
+            Email is required</em>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label class="col-form-label col-sm-2" for="password">Password</label>
+        <div class="col-md-5">
+          <input class="form-control" formControlName="password" id="password" type="password"/>
+        </div>
+        <div class="col-md-5">
+          <em *ngIf="validateControl('password') && hasError('password', 'required')">
+            Password is required</em>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label class="col-form-label col-sm-2" for="confirm">Confirm password</label>
+        <div class="col-md-5">
+          <input class="form-control" formControlName="confirm" id="confirm" type="password"/>
+        </div>
+      </div>
+      <br>
+      <div class="mb-3 row">
+        <div class="col-md-1">
+          <button [disabled]="!registerForm.valid" class="btn btn-success" type="submit">Submit</button>
+        </div>
+        <p class="login-p">Already have an account? <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/login']"
+                                                       class="login-link"
+                                                       routerLinkActive="active">Sign in</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

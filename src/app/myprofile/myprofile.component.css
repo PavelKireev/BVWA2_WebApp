@@ -1,0 +1,83 @@
+/* Style for the login form */
+form {
+  margin: auto;
+  max-width: 600px;
+  padding: 40px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group .form-control {
+  font-size: 22px;
+}
+
+.mt-2 label {
+  font-size: 22px;
+  font-weight: 600;
+  color: #34495e;
+  margin: 10px 0;
+}
+
+.form-control {
+  height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid hsla(0, 0%, 0%, 0.3);
+  border-radius: 15px;
+  color: #34495e;
+}
+
+.form-control:focus {
+  outline: none;
+  border: 3px solid #1ba4ff;
+  color: #2c3e50;
+}
+
+/* Center the button */
+button[type="submit"] {
+  display: block;
+  margin: 0 auto;
+  height: 50px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 30px;
+}
+
+/* Style the primary button */
+.btn-primary {
+  background-color: var(--bs-blue);
+  border: none;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 5px hsla(0, 0%, 50%, 0.6);
+}
+
+.btn-primary:hover {
+  background-color: #00479b;
+}
+
+/* Style for the user information section */
+h2 {
+  font-size: 36px;
+  font-weight: 600;
+  /*margin-bottom: 30px;*/
+  margin: auto;
+  max-width: 600px;
+  padding: 40px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
