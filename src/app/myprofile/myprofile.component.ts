@@ -30,7 +30,7 @@ export class MyProfileComponent {
 
   getUser(): void {
     this.httpClient.get<AuthUserDto>(this.baseUrl + "my-profile")
-                   .subscribe(response => this.user = response);
+      .subscribe(response => this.user = response);
   }
 
   public update(user?: AuthUserDto): void {

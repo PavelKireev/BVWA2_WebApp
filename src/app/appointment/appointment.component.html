@@ -1,5 +1,8 @@
-﻿<div *ngIf="(isAdmin() || isDoctor)">
-  <div style="color:green;">
+﻿<div *ngIf="!isUserAuthenticated()">
+  <login></login>
+</div>
+<div *ngIf="isUserAuthenticated() && (isAdmin() || isDoctor)">
+  <div *ngIf="isUserAuthenticated()" style="color:green;">
     <table class="table">
       <thead>
       <tr>

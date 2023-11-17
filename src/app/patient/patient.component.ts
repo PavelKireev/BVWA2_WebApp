@@ -26,9 +26,9 @@ export class PatientComponent {
 
   ngOnInit(): void {
     this.getPatient(this.actRoute.snapshot.params['email'])
-        .subscribe(response => this.patient = response);
+      .subscribe(response => this.patient = response);
   }
-  
+
   isUserAuthenticated(): boolean {
     const token = localStorage.getItem("jwt");
     if (token && !this.jwtHelper.isTokenExpired(token)) {

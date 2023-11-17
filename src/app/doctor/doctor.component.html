@@ -1,4 +1,7 @@
-<div>
+<div *ngIf="!isUserAuthenticated()">
+  <login></login>
+</div>
+<div *ngIf="isUserAuthenticated()">
   <h2>{{doctor.firstName}} {{doctor.lastName}}</h2>
   <form>
     <div class="form-group mt-2">
