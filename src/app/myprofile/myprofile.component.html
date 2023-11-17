@@ -1,7 +1,4 @@
-<div *ngIf="!isUserAuthenticated()">
-  <login></login>
-</div>
-<div *ngIf="isUserAuthenticated()">
+<div>
   <h2>{{user.firstName}} {{user.lastName}}</h2>
   <form>
     <div class="form-group mt-2">
@@ -23,25 +20,26 @@
              id="userLastName" placeholder="Enter last name" value="{{user.lastName}}"
              [ngModelOptions]="{standalone:true}">
     </div>
-    <div *ngIf="isDoctor()" class="form-group mt-2">
+    <div class="form-group mt-2">
       <label for="userOfficeNumber">Office Number</label>
       <input type="number" [(ngModel)]="user.officeNumber" class="form-control"
              id="userOfficeNumber" placeholder="Enter office number" value="{{user.officeNumber}}"
              [ngModelOptions]="{standalone:true}">
     </div>
-    <div *ngIf="isPatient()" class="form-group mt-2">
+    <div class="form-group mt-2">
       <label for="userPhoneNumber">Phone Number</label>
       <input type="text" [(ngModel)]="user.phoneNumber" class="form-control"
              id="userPhoneNumber" placeholder="Enter phone number" value="{{user.phoneNumber}}"
              [ngModelOptions]="{standalone:true}">
     </div>
-    <div *ngIf="isPatient()" class="form-group mt-2">
+    <div class="form-group mt-2">
       <label for="userInsuranceNumber">Insurance Number</label>
       <input type="number" [(ngModel)]="user.insuranceNumber" class="form-control"
              id="userInsuranceNumber" placeholder="Enter insurance number" value="{{user.insuranceNumber}}"
              [ngModelOptions]="{standalone:true}">
     </div>
-    <div *ngIf="isPatient()" class="mt-2">
+    <div class="mt-2">
+      <label>Birth date</label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="user.birthDate" [ngModelOptions]="{standalone:true}">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

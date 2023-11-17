@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" *ngIf="isUserAuthenticated()">
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/home']" class="navbar-brand"
        routerLinkActive="active">zdravotní systém</a>
@@ -11,30 +11,30 @@
       </div>
       <div class="list">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li *ngIf="isUserAuthenticated()" class="nav-item">
+          <li class="nav-item">
             <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/my-profile']" class="nav-link"
                routerLinkActive="active">My Profile</a>
           </li>
         </ul>
-        <ul *ngIf="isDoctor()" class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/working-hours']" class="nav-link"
                routerLinkActive="active">My Working Hours</a>
           </li>
         </ul>
-        <ul *ngIf="isAdmin() || isDoctor()" class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a (click)="showTable($event, 'patient')" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
                routerLinkActive="active">Patients</a>
           </li>
         </ul>
-        <ul *ngIf="isAdmin()" class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a (click)="showTable($event, 'doctor')" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
                routerLinkActive="active">Doctors</a>
           </li>
         </ul>
-        <div *ngIf="isAdmin() || isDoctor()">
+        <div>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link" [routerLink]="['/appointment']" routerLinkActive="active"
@@ -42,7 +42,7 @@
             </li>
           </ul>
         </div>
-        <div *ngIf="isAdmin()" class="collapse navbar-collapse" id="collapseNav">
+        <div class="collapse navbar-collapse" id="collapseNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li *ngIf="isAdmin()" class="nav-item">
               <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/create-user']" class="nav-link"
@@ -50,7 +50,7 @@
             </li>
           </ul>
         </div>
-        <ul *ngIf="isUserAuthenticated()" class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a (click)="logout()" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
                routerLinkActive="active">Logout</a>
@@ -60,7 +60,7 @@
       <div class="dot"></div>
     </div>
     <form class="d-flex">
-      <ul *ngIf="isUserAuthenticated()" class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/registration']" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">Register</a>
