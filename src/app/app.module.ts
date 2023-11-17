@@ -28,9 +28,9 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/materia
 const routes: Routes = [
   { path: '', component: MyProfileComponent },
   { path: 'list', component: HomepageComponent },
-  { path: 'appointment', component: AppointmentComponent, canActivate: [AuthGuard] },
-  { path: 'doctor', component: DoctorComponent, canActivate: [AuthGuard] },
-  { path: 'patient', component: PatientComponent, canActivate: [AuthGuard] },
+  { path: 'appointment', component: AppointmentComponent},
+  { path: 'doctor', component: DoctorComponent },
+  { path: 'patient', component: PatientComponent },
   { path: 'registration', component: RegisterUserComponent },
   { path: 'login', component: LoginComponent },
   { path: 'my-profile', component: MyProfileComponent },

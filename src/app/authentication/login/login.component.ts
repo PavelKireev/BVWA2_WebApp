@@ -22,31 +22,32 @@ export class LoginComponent {
   ) { }
 
   public login = (form: NgForm) => {
-    const credentials = JSON.stringify(form.value);
-    this.http.post(this.url + "login", credentials, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-      const token = (<any>response).token;
-      localStorage.setItem("jwt", token);
-      this.invalidLogin = false;
-      this.router.navigate(["my-profile"]);
-    }, err => {
-      this.invalidLogin = true;
-      setTimeout(() => {
-        this.invalidLogin = false;
-      }, 3000);
-    });
+    // const credentials = JSON.stringify(form.value);
+    // this.http.post(this.url + "login", credentials, {
+    //   headers: new HttpHeaders({
+    //     "Content-Type": "application/json"
+    //   })
+    // }).subscribe(response => {
+    //   const token = (<any>response).token;
+    //   localStorage.setItem("jwt", token);
+    //   this.invalidLogin = false;
+    //   this.router.navigate(["my-profile"]);
+    // }, err => {
+    //   this.invalidLogin = true;
+    //   setTimeout(() => {
+    //     this.invalidLogin = false;
+    //   }, 1000);
+    // });
+    this.router.navigate(["my-profile"]);
   }
 
   isUserAuthenticated() {
-    const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    // const token = localStorage.getItem("jwt");
+    // if (token && !this.jwtHelper.isTokenExpired(token)) {
+    //   return true;
+    // }
+    // else {
+    //   return false;
+    // }
   }
 }
