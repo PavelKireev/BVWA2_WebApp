@@ -25,9 +25,12 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { WorkingHoursService } from './service/working-hours.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import {SidebarComponent} from "./sidebar/sidebar.component";
+import {LandingComponent} from "./landing/landing.component";
+import {NoAuthGuard} from "./guards/no-auth-guard.service";
 
 const routes: Routes = [
-  { path: '', component: MyProfileComponent },
+  {path: '', redirectTo: '/landing', pathMatch: 'full'},
+  {path: 'landing', component: LandingComponent},
   { path: 'list', component: HomepageComponent },
   { path: 'appointment', component: AppointmentComponent},
   { path: 'doctor', component: DoctorComponent},
@@ -56,7 +59,8 @@ export function tokenGetter() {
     RegisterUserComponent,
     WorkingHoursComponent,
     CreateUserComponent,
-    SidebarComponent
+    SidebarComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
