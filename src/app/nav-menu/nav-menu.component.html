@@ -1,71 +1,32 @@
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/home']" class="navbar-brand"
-       routerLinkActive="active">zdravotní systém</a>
-    <div class="dots" onclick="this.classList.toggle('active');">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="shadow cut"></div>
-      <div class="container cut">
-        <div class="drop cut2"></div>
-      </div>
-      <div class="list">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/my-profile']" class="nav-link"
-               routerLinkActive="active">My Profile</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/working-hours']" class="nav-link"
-               routerLinkActive="active">My Working Hours</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a (click)="showTable($event, 'patient')" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
-               routerLinkActive="active">Patients</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a (click)="showTable($event, 'doctor')" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
-               routerLinkActive="active">Doctors</a>
-          </li>
-        </ul>
-        <div>
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/appointment']" routerLinkActive="active"
-                 [routerLinkActiveOptions]="{exact: true}">Appointments</a>
-            </li>
-          </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="collapseNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li *ngIf="isAdmin()" class="nav-item">
-              <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/create-user']" class="nav-link"
-                 routerLinkActive="active">Create User</a>
-            </li>
-          </ul>
-        </div>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a (click)="logout()" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
-               routerLinkActive="active">Logout</a>
-          </li>
-        </ul>
-      </div>
-      <div class="dot"></div>
-    </div>
-    <form class="d-flex">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/registration']" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">Register</a>
-        </li>
-      </ul>
-    </form>
+<nav class='topbar'>
+  <a [routerLink]="['/home']" class='flex items-center gap-3 no-underline'>
+    <img alt='logo' class="mb-3" height='52' width="52" src='/assets/images/logo.png'>
+    <p class='text-heading2-bold text-dark-1 max-xs:hidden'>norman.zs</p>
+  </a>
+
+  <div class="flex flex-row gap-5 mt-3">
+    <a [routerLink]="['/']" class="cursor-pointer no-underline">
+      <p class='nav_link'>Features</p>
+    </a>
+    <a [routerLink]="['/']" class="cursor-pointer no-underline">
+      <p class='nav_link'>How it
+        works</p>
+    </a>
+    <a [routerLink]="['/']" fragment="about" class="cursor-pointer no-underline">
+      <p class='nav_link'>About Us</p>
+    </a>
+    <a [routerLink]="['/']" fragment="contact" class="cursor-pointer no-underline">
+      <p class='nav_link'>Contact Us</p>
+    </a>
+  </div>
+
+  <div class='flex items-center gap-3'>
+    <button [routerLink]="['/sign-in']"
+            class="flex flex-row ease-in-out text-indigo-500 transition-colors text-base-medium bg-indigo-100/90 hover:bg-indigo-200/50 border-2 border-indigo-200/30 hover:border-indigo-200/50 active:bg-indigo-200/60 rounded-3xl px-6 py-2 max-md:hidden shadow-md">Sign in
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+      </svg>
+    </button>
   </div>
 </nav>
+
