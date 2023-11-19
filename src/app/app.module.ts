@@ -24,6 +24,7 @@ import { WorkingHoursComponent } from './working-hours/working-hours.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { WorkingHoursService } from './service/working-hours.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
+import {SidebarComponent} from "./sidebar/sidebar.component";
 
 const routes: Routes = [
   { path: '', component: MyProfileComponent },
@@ -54,7 +55,8 @@ export function tokenGetter() {
     PatientComponent,
     RegisterUserComponent,
     WorkingHoursComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
