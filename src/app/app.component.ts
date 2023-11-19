@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {initFlowbite} from "flowbite";
+import {AuthService} from "./service/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,16 @@ import {initFlowbite} from "flowbite";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'Zdravotni System App';
+  title = 'Norman.zs';
+
+  constructor(private authService: AuthService) {
+  }
+
+  get isUserAuthenticated(): boolean {
+    return this.authService.isUserAuthenticated();
+  }
 
   ngOnInit(): void {
     initFlowbite();
   }
 }
-
