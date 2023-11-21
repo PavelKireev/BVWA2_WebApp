@@ -1,62 +1,122 @@
-﻿<div>
-  <div style="color:green;">
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Doctor</th>
-        <th scope="col">Patient</th>
-        <th scope="col">Time</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+﻿<div class="mt-8">
 
-      </tr>
-      </thead>
-      <tbody *ngFor="let appointment of appointmentTable; let i = index">
-      <tr>
-        <th scope="row">{{i + 1}}</th>
-        <td>{{appointment.doctorEmail}}</td>
-        <td>{{appointment.patientEmail}}</td>
-        <td>{{appointment.dateTime}}</td>
-        <td><button type="button" class="btn btn-danger" (click)="delete($event, appointment.id)">Delete</button></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <div class=" mt-2">
-        <mat-form-field appearance="fill">
-          <mat-label>Doctor</mat-label>
-          <mat-select (selectionChange)="onDoctorChange($event)" #doctorSelector>
-            <mat-option *ngFor="let doctor of doctorList" [value]="doctor">
-              {{doctor}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class=" mt-2">
-        <mat-form-field appearance="fill">
-          <mat-label>Patient</mat-label>
-          <mat-select #patientSelector>
-            <mat-option *ngFor="let patient of patientList" [value]="patient">
-              {{patient}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class=" mt-2">
-          <mat-form-field appearance="fill">
-            <mat-label>Datum a cas</mat-label>
-            <mat-select #dateTimeSelector>
-              <mat-option *ngFor="let dateTime of dateTimeList" [value]="dateTime">
-                {{dateTime}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+    <div class="relative bg-gray-100 rounded-3xl overflow-hidden shadow-md">
+
+        <div class="absolute inset-0 bg-cover bg-center"
+             style="background-image: url('/assets/images/sign-in.png'); filter: blur(3px);"></div>
+
+        <div class="absolute inset-0 bg-slate-100/30"></div>
+
+        <div class="py-8 sm:px-12 md:px-24 lg:56 xl:px-96 mx-auto max-w-screen-xl flex flex-col justify-center items-center gap-5 relative">
+            <div *ngIf="appointmentTable?.length"
+                 class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div class="overflow-hidden rounded-2xl shadow-md mb-6">
+                        <table class="w-full text-sm text-left text-gray-900">
+                            <thead class="text-sm font-semibold text-center bg-indigo-100">
+                            <tr>
+                                <th scope="col"
+                                    class="py-3.5 px-4">
+                                    No.
+                                </th>
+                                <th scope="col"
+                                    class="py-3.5 px-4">
+                                    Doctor
+                                </th>
+                                <th scope="col"
+                                    class="py-3.5 px-4">
+                                    Patient
+                                </th>
+                                <th scope="col"
+                                    class="py-3.5 px-4">
+                                    Time
+                                </th>
+                                <th scope="col"
+                                    class="py-3.5 px-4">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody *ngFor="let appointment of appointmentTable; let i = index"
+                                    class="font-normal bg-gray-100 divide-y">
+                            <tr>
+                                <th scope="row" class="px-6 py-4">
+                                    {{i + 1}}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{appointment.doctorEmail}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{appointment.patientEmail}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{appointment.dateTime}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button
+                                            class="text-gray-500 transition-colors duration-200 hover:text-red-600 active:text-red-800 focus:outline-none"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5"
+                                             stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-column justify-center bg-indigo-100/80 rounded-3xl shadow-md">
+                <div class="grid gap-3 md:grid-cols-3 p-4">
+                    <div>
+                        <select #doctorSelector
+                                class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
+                                id="doctorSelector"
+                                name="doctorSelector"
+                                (selectionchange)="onDoctorChange($event)"
+                                required>
+                            <option value="" disabled selected>Select doctor</option>
+                            <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
+                                    *ngFor="let doctor of doctorList" [value]="doctor">
+                                {{ doctor }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <select #patientSelector
+                                class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
+                                id="patientSelector"
+                                name="patientSelector"
+                                required>
+                            <option value="" disabled selected>Select patient</option>
+                            <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
+                                    *ngFor="let patient of patientList" [value]="patient">
+                                {{ patient }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <select #dateTimeSelector
+                                class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
+                                id="dateTimeSelector"
+                                name="dateTimeSelector"
+                                required>
+                            <option value="" disabled selected>Select time</option>
+                            <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
+                                    *ngFor="let dateTime of dateTimeList" [value]="dateTime">
+                                {{ dateTime }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <button (click)="update(dateTimeSelector.value, doctorSelector.value, patientSelector.value)"
+                        class="text-xl font-medium text-gray-800 bg-amber-300 mx-4 mb-3 ease-in-out transition-colors hover:bg-yellow-300 border-2 border-amber-300 hover:border-amber-300 active:bg-amber-400 rounded-3xl px-16 py-1.5 max-md:hidden shadow-md">
+                    Submit
+                </button>
+            </div>
         </div>
-        <button (click)="update(dateTimeSelector.value, doctorSelector.value, patientSelector.value)"
-                class="btn btn-primary mt-3">Submit</button>
-      </div>
     </div>
-  </div>
 </div>
