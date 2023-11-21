@@ -22,7 +22,7 @@ export class RegisterUserComponent implements OnInit {
     private httpClient: HttpClient
   ) { }
 
-  url = configurl.apiServer.url + '/api/authentication/';
+  url = 'api/authentication/';
 
   ngOnInit(): void {
     const passwordPattern = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;

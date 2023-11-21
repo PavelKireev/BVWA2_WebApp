@@ -25,6 +25,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.0",
+    "jwt-decode": "^4.0.0",
     "ng-bootstrap": "^1.6.3",
     "ngx-bootstrap": "^9.0.0",
     "oidc-client": "^1.11.5",

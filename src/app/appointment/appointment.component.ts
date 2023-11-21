@@ -33,7 +33,7 @@ export class AppointmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.fillTable();
-    this.httpClient.get<Patient[]>(configurl.apiServer.url + "/api/patient/list")
+    this.httpClient.get<Patient[]>( "api/patient/list")
                    .pipe(
                      mergeMap( (patients: Patient[]) => {
                        this.patientList = patients.map(patient => patient.email);

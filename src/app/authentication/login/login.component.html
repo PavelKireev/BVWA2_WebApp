@@ -1,16 +1,22 @@
 <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
   <fieldset>
     <legend>Hello there!</legend>
-    <div *ngIf="invalidLogin" class="alert alert-danger">Wasn't your password or email?</div>
+    <!--    <div *ngIf="invalidLogin" class="alert alert-danger">Wasn't your password or email?</div>-->
     <div class="form-group">
-      <input type="email" id="username" name="username" ngModel class="form-control" placeholder="email" required autofocus aria-label="Email address">
+      <input type="email" id="email" name="email" ngModel class="form-control" placeholder="email" required
+             autofocus aria-label="Email address">
     </div>
     <div class="form-group">
-      <input type="password" id="password" name="password" ngModel class="form-control" placeholder="password" required aria-label="Password">
+      <input type="password" id="password" name="password" ngModel class="form-control" placeholder="password" required
+             aria-label="Password">
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" title="Login">Sign in</button>
-    <p class="register-p">Don't have an account? <a class="registration-link" [routerLink]="['/registration']" routerLinkActive="active"
-       [routerLinkActiveOptions]="{exact: true}">Register</a>
+    <button class="btn btn-lg btn-primary btn-block"
+            type="submit" title="Login"
+            [routerLink]="['./profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sign in
+    </button>
+    <p class="register-p">Don't have an account? <a class="registration-link" [routerLink]="['/registration']"
+                                                    routerLinkActive="active"
+                                                    [routerLinkActiveOptions]="{exact: true}">Sigh Up</a>
     </p>
   </fieldset>
 </form>

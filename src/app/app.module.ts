@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { JwtModule } from "@auth0/angular-jwt";
@@ -24,6 +24,8 @@ import { WorkingHoursComponent } from './working-hours/working-hours.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { WorkingHoursService } from './service/working-hours.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
+import {HttpInterceptor} from "./service/http.interceptor";
+import {NotFoundComponent} from "./error-pages/not-found.component";
 
 const routes: Routes = [
   { path: '', component: MyProfileComponent },
@@ -35,7 +37,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'working-hours', component: WorkingHoursComponent },
-  { path: 'create-user', component: CreateUserComponent }
+  { path: 'create-user', component: CreateUserComponent },
+  { path: 'not-found', component: NotFoundComponent }
 ];
 
 export function tokenGetter() {
@@ -54,7 +57,8 @@ export function tokenGetter() {
     PatientComponent,
     RegisterUserComponent,
     WorkingHoursComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +85,15 @@ export function tokenGetter() {
     MatDatepickerModule,
     AuthService,
     WorkingHoursService,
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500 }}
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {duration: 2500 }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

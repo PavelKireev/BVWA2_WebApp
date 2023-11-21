@@ -3,9 +3,10 @@ import { Component, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import configurl from '../../assets/config/config.json';
+import {AuthService} from "../service/auth.service";
 
 @Component({
-  selector: 'hompage-component',
+  selector: 'homepage-component',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
@@ -16,6 +17,7 @@ export class HomepageComponent {
   public currentType?: string;
 
   constructor(
+    private authService: AuthService,
     private actRoute: ActivatedRoute,
     private jwtHelper: JwtHelperService,
     private httpClient: HttpClient,
@@ -29,13 +31,7 @@ export class HomepageComponent {
   }
 
   isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.authService.isUserAuthenticated();
   }
 
   isAdmin(): boolean {
@@ -45,14 +41,25 @@ export class HomepageComponent {
   fillTable(): void {
     let type = this.actRoute.snapshot.params['type']
     this.tableList = [];
-    this.httpClient.get<User[]>(configurl.apiServer.url + "/api/" + type + "/list").subscribe(
-      (users: User[]) => {
-        this.tableList = users;
-        users.forEach(
-          (u) => console.log(u.firstName + " " + u.lastName)
-        );
-      }
-    );
+    if (type) {
+      this.httpClient.get<User[]>("api/" + type + "/list").subscribe(
+        (users: User[]) => {
+          this.tableList = users;
+          users.forEach(
+            (u) => console.log(u.firstName + " " + u.lastName)
+          );
+        }
+      );
+    } else {
+      this.httpClient.get<User[]>("api/patient/list").subscribe(
+        (users: User[]) => {
+          this.tableList = users;
+          users.forEach(
+            (u) => console.log(u.firstName + " " + u.lastName)
+          );
+        }
+      );
+    }
     console.log(this.tableList?.toString());
   }
 

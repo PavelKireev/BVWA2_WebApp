@@ -12,7 +12,7 @@ import { AuthService } from "../service/auth.service";
 })
 export class MyProfileComponent {
 
-  private readonly baseUrl: string = configurl.apiServer.url + "/api/authentication/"
+  private readonly baseUrl: string = "api"
 
   @Output()
   public user: AuthUserDto = new AuthUserDto();
@@ -29,8 +29,24 @@ export class MyProfileComponent {
   }
 
   getUser(): void {
-    this.httpClient.get<AuthUserDto>(this.baseUrl + "my-profile")
-                   .subscribe(response => this.user = response);
+    if (!this.isUserAuthenticated()) {
+      return;
+    }
+
+    let uuid: string = this.authService.getUserUuid();
+
+    if (this.isPatient()) {
+      this.httpClient.get<AuthUserDto>(this.baseUrl + `/patient/${uuid}`)
+                     .subscribe(response => this.user = response);
+    }
+    if (this.isDoctor()) {
+      this.httpClient.get<AuthUserDto>(this.baseUrl + `/doctor/${uuid}`)
+                     .subscribe(response => this.user = response);
+    }
+    if (this.isAdmin()) {
+      this.httpClient.get<AuthUserDto>(this.baseUrl + `/admin/${uuid}`)
+                     .subscribe(response => this.user = response);
+    }
   }
 
   public update(user?: AuthUserDto): void {
@@ -61,7 +77,6 @@ export class AuthUserDto {
   lastName?: string;
   email?: string;
   phoneNumber?: number;
-  insuranceNumber?: string;
   birthDate?: Date;
   officeNumber?: number;
 }

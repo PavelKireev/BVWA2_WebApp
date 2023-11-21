@@ -1,5 +1,8 @@
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import {LoginFormDto} from "../authentication/login/login.component";
 
 @Injectable({
   providedIn: 'root'
@@ -7,21 +10,27 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 export class AuthService {
 
   constructor(
+    private http: HttpClient,
     private jwtHelper: JwtHelperService
   ) { }
 
+  login(loginForm: LoginFormDto): Observable<string> {
+    const httpOptions = {
+      headers: {
+        Authorization: 'Basic ' + window.btoa(loginForm.email + ':' + loginForm.password)
+      },
+      responseType: 'text' as 'text',
+    };
+    return this.http.post("api/authentication/sign-in", loginForm , httpOptions);
+  }
+
   public isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    const token = sessionStorage.getItem("app.token");
+    return !!(token && !this.jwtHelper.isTokenExpired(token));
   }
 
   public logout = () => {
-    localStorage.removeItem("jwt");
+    sessionStorage.removeItem("app.token");
   }
 
   public isAdmin(): boolean {
@@ -37,7 +46,7 @@ export class AuthService {
   }
 
   public getAuthUserEmail(): string {
-    let token = localStorage.getItem("jwt");
+    let token = sessionStorage.getItem("app.token");
     if (token !== null) {
       return this.jwtHelper.decodeToken(token)["email"];
     } else {
@@ -46,7 +55,7 @@ export class AuthService {
   }
 
   public getAuthUserId(): number {
-    let token = localStorage.getItem("jwt");
+    let token = sessionStorage.getItem("app.token");
     if (token !== null) {
       return this.jwtHelper.decodeToken(token)["id"];
     } else {
@@ -54,8 +63,17 @@ export class AuthService {
     }
   }
 
+  public getUserUuid(): string {
+    let token = sessionStorage.getItem("app.token");
+    if (token !== null) {
+      return this.jwtHelper.decodeToken(token)["uuid"];
+    } else {
+      return String();
+    }
+  }
+
   private getRole(): string {
-    let token = localStorage.getItem("jwt");
+    let token = sessionStorage.getItem("app.token");
     if (token !== null) {
       return this.jwtHelper.decodeToken(token)["role"];
     } else {

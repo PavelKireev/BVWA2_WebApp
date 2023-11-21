@@ -35,12 +35,6 @@
              id="userPhoneNumber" placeholder="Enter phone number" value="{{user.phoneNumber}}"
              [ngModelOptions]="{standalone:true}">
     </div>
-    <div *ngIf="isPatient()" class="form-group mt-2">
-      <label for="userInsuranceNumber">Insurance Number</label>
-      <input type="number" [(ngModel)]="user.insuranceNumber" class="form-control"
-             id="userInsuranceNumber" placeholder="Enter insurance number" value="{{user.insuranceNumber}}"
-             [ngModelOptions]="{standalone:true}">
-    </div>
     <div *ngIf="isPatient()" class="mt-2">
       <input matInput [matDatepicker]="picker" [(ngModel)]="user.birthDate" [ngModelOptions]="{standalone:true}">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
