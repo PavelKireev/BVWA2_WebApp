@@ -15,7 +15,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class CreateUserComponent {
 
-  private readonly baseUrl: string = configurl.apiServer.url + "/api/user/";
+  private readonly baseUrl: string = "api";
 
   @Output()
   public user: UserCreateDto = new UserCreateDto();
@@ -26,8 +26,8 @@ export class CreateUserComponent {
 
   @Output()
   roles: Role[] = [
-    { value: 'DOCTOR', viewValue: 'Doctor' },
-    { value: 'PATIENT', viewValue: 'Patient' }
+    { value: 'doctor', viewValue: 'Doctor' },
+    { value: 'patient', viewValue: 'Patient' }
   ];
 
   constructor(
@@ -50,17 +50,11 @@ export class CreateUserComponent {
   }
 
   isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.authService.isUserAuthenticated()
   }
 
   public isAdmin(): boolean {
-    return this.isUserAuthenticated() && this.authService.isAdmin();
+    return this.authService.isAdmin();
   }
 
   public validateControl = (controlName: string) => {
@@ -75,13 +69,24 @@ export class CreateUserComponent {
     const formValues = { ...passwordFormValue };
     user.password = formValues.password;
     user.role = role;
-    this.httpClient.post(this.baseUrl + "create", JSON.stringify(user), {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe({
-      next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK" )
-    });
+
+    if (role === 'doctor') {
+      this.httpClient.post(this.baseUrl + "/doctor/create", JSON.stringify(user), {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe({
+        next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK")
+      });
+    } else {
+      this.httpClient.post(this.baseUrl + "/patient/create", JSON.stringify(user), {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe({
+        next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK")
+      });
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Component, Output } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -50,7 +50,33 @@ export class MyProfileComponent {
   }
 
   public update(user?: AuthUserDto): void {
+    if (!this.isUserAuthenticated()) {
+      return;
+    }
 
+    let uuid: string = this.authService.getUserUuid();
+    user!.uuid = uuid;
+    if (this.isPatient()) {
+      this.httpClient.post<AuthUserDto>(this.baseUrl + `/patient/update`, JSON.stringify(user), {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe(response => console.log(response));
+    }
+    if (this.isDoctor()) {
+      this.httpClient.post<AuthUserDto>(this.baseUrl + `/doctor/update`, JSON.stringify(user), {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe(response => console.log(response));
+    }
+    if (this.isAdmin()) {
+      this.httpClient.post<AuthUserDto>(this.baseUrl + `/admin/update`, JSON.stringify(user), {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe(response => console.log(response));
+    }
   }
 
   public isUserAuthenticated(): boolean {
@@ -72,7 +98,7 @@ export class MyProfileComponent {
 }
 
 export class AuthUserDto {
-  id?: number;
+  uuid?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
