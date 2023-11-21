@@ -8,12 +8,11 @@ import {AuthService} from "../service/auth.service";
 })
 export class SidebarComponent implements OnInit {
   public sidebarLinks = [
-    {route: '/home', imgURL: '/assets/assets/home.svg', name: 'Home'},
-    {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
-    {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
     {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
+    {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
     {route: '/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors'},
     {route: '/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'},
+    {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
   ];
 
 
