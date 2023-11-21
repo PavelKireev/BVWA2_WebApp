@@ -5,7 +5,7 @@
       class="block mb-2 text-sm font-medium text-gray-700"
       for="roleSelector">Role</label>
     <select #roleSelector
-            class="font-medium text-indigo-500 placeholder-gray-600 bg-indigo-100/90 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
+            class="font-medium text-gray-800 placeholder-gray-600 bg-indigo-100/90 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
             id="roleSelector"
             name="roleSelector"
             required>
@@ -16,7 +16,7 @@
       </option>
     </select>
   </div>
-  <div class="grid gap-6 mb-6 md:grid-cols-6">
+  <div class="grid gap-6 mb-6 md:grid-cols-3 lg:grid-cols-6">
     <div>
       <label
         [class]="firstName.invalid && firstName.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
