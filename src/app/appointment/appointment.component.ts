@@ -10,26 +10,26 @@ import {Doctor} from "../doctor/doctor.component";
 import {AuthService} from "../service/auth.service";
 
 @Component({
-  selector: 'appointment-component',
-  templateUrl: './appointment.component.html',
-  styleUrls: ['./appointment.component.css']
+    selector: 'appointment-component',
+    templateUrl: './appointment.component.html',
+    styleUrls: ['./appointment.component.css']
 })
 export class AppointmentComponent implements OnInit {
-  title = 'Zdravotni System App';
+    title = 'Zdravotni System App';
 
-  @Output()
-  doctorList?: (string | undefined)[];
-  @Output()
-  patientList?: (string | undefined)[];
-  @Output()
-  dateTimeList?: (string | undefined)[];
-  @Output()
-  public appointmentTable?: AppointmentDto[];
+    @Output()
+    doctorList?: (string | undefined)[];
+    @Output()
+    patientList?: (string | undefined)[];
+    @Output()
+    dateTimeList?: (string | undefined)[];
+    @Output()
+    public appointmentTable?: AppointmentDto[];
 
-  constructor(
-    private httpClient: HttpClient,
-    private authService: AuthService,
-  ) { }
+    constructor(
+        private httpClient: HttpClient,
+        private authService: AuthService,
+    ) { }
 
   ngOnInit(): void {
     this.fillTable();

@@ -1,7 +1,4 @@
--<div *ngIf="!isUserAuthenticated()">
-  <login></login>
-</div>
- <div *ngIf="isUserAuthenticated()">
+ <div>
    <h2>My Working Hours</h2>
    <table class="table">
      <thead>
@@ -40,14 +37,6 @@
          <input type="number" min="1" max="8" [(ngModel)]="workingHours.hoursCount"
                 class="form-control" id="workingHoursHoursCount"
                 placeholder="Enter Hours Count" value="{{workingHours.hoursCount}}" [ngModelOptions]="{standalone:true}">
-       </div>
-     </div>
-     <div class="form-check form-check-inline mt-2">
-       <div class="form-group mt-2">
-         <label for="workingHoursHourFrom">Hour From</label>
-         <input type="number" min="0" max="15" [(ngModel)]="workingHours.hourFrom"
-                class="form-control" id="workingHoursHoursCount"
-                placeholder="Enter Hour From" value="{{workingHours.hourFrom}}" [ngModelOptions]="{standalone:true}">
        </div>
      </div>
      <div class="form-check form-check-inline mt-2">
