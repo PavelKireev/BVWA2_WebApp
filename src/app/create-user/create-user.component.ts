@@ -1,11 +1,13 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, Output } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { JwtHelperService } from "@auth0/angular-jwt";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Component, Output} from "@angular/core";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {JwtHelperService} from "@auth0/angular-jwt";
 import configurl from '../../assets/config/config.json';
-import { AuthService } from "../service/auth.service";
-import { PasswordConfirmationValidatorService } from "../shared/custom-validators/password-confirmation-validator.service";
+import {AuthService} from "../service/auth.service";
+import {
+  PasswordConfirmationValidatorService
+} from "../shared/custom-validators/password-confirmation-validator.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -14,38 +16,20 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent {
-
   private readonly baseUrl: string = configurl.apiServer.url + "/api/user/";
 
-  @Output()
-  public user: UserCreateDto = new UserCreateDto();
-
+  @Output() public user: UserCreateDto = new UserCreateDto();
   passwordForm!: FormGroup;
-  errorMessage: string = '';
-  showError: boolean = false;
-  isDropdownVisible = false;
-  selectedRoleTitle: string | null = null;
+  @Output() roles: Role[] = [{value: 'DOCTOR', viewValue: 'Doctor'}, {value: 'PATIENT', viewValue: 'Patient'}];
 
-  @Output()
-  roles: Role[] = [
-    { value: 'DOCTOR', viewValue: 'Doctor' },
-    { value: 'PATIENT', viewValue: 'Patient' }
-  ];
-
-  constructor(
-    private authService: AuthService,
-    private jwtHelper: JwtHelperService,
-    private httpClient: HttpClient,
-    private passConfValidator: PasswordConfirmationValidatorService,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) { }
+  constructor(private authService: AuthService, private jwtHelper: JwtHelperService, private httpClient: HttpClient, private passConfValidator: PasswordConfirmationValidatorService, private router: Router, private snackBar: MatSnackBar) {
+  }
 
   ngOnInit(): void {
     const passwordPattern = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
 
     this.passwordForm = new FormGroup({
-      password: new FormControl('',[Validators.required, Validators.pattern(passwordPattern)]),
+      password: new FormControl('', [Validators.required, Validators.pattern(passwordPattern)]),
       confirm: new FormControl('')
     });
     this.passwordForm.get('confirm')?.setValidators([Validators.required, this.passConfValidator.validateConfirmPassword(this.passwordForm?.get('password'))]);
@@ -53,12 +37,7 @@ export class CreateUserComponent {
 
   isUserAuthenticated(): boolean {
     const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return !!(token && !this.jwtHelper.isTokenExpired(token));
   }
 
   public isAdmin(): boolean {
@@ -74,7 +53,7 @@ export class CreateUserComponent {
   }
 
   public update(user: UserCreateDto, passwordFormValue: any, role: string): void {
-    const formValues = { ...passwordFormValue };
+    const formValues = {...passwordFormValue};
     user.password = formValues.password;
     user.role = role;
     this.httpClient.post(this.baseUrl + "create", JSON.stringify(user), {
@@ -82,22 +61,8 @@ export class CreateUserComponent {
         "Content-Type": "application/json"
       })
     }).subscribe({
-      next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK" )
+      next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK")
     });
-  }
-
-  toggleDropdown() {
-    this.isDropdownVisible = !this.isDropdownVisible;
-  }
-
-  updateSelection(title: string) {
-    this.selectedRoleTitle = title;
-    this.roles.forEach(role => {
-      if (role.viewValue === title) {
-        this.user.role = role.value;
-      }
-    });
-    this.toggleDropdown();
   }
 
 }

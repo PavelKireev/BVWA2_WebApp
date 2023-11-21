@@ -1,114 +1,196 @@
-<div>
-  <div class=" mt-2">
-    <mat-form-field appearance="fill">
-      <mat-label>Role</mat-label>
-      <mat-select #roleSelector>
-        <mat-option *ngFor="let role of roles" [value]="role.value">
-          {{role.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="w-full md:w-1/2 px-3 mb-3">
-      <label class="text-slate-300" for="dropdownRadioButton">Market</label>
-      <button (click)="toggleDropdown()"
-              class="bg-slate-800 border-0 text-white placeholder-gray-400 font-medium rounded-lg p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center inline-flex items-center"
-              id="dropdownRadioButton"
-              type="button">
-        {{ selectedRoleTitle || 'Please choose an option' }}
-        <svg aria-hidden="true" class="w-2.5 h-2.5 ml-2.5" fill="none" viewBox="0 0 10 6"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="m1 1 4 4 4-4" stroke="currentColor" stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"/>
-        </svg>
-      </button>
-      <div *ngIf="isDropdownVisible"
-           class="w-full bg-slate-800 divide-gray-100 rounded-xl shadow-lg mt-2">
-        <ul aria-labelledby="dropdownRadioButton"
-            class="p-3 space-y-3 text-sm text-slate-200">
-          <li *ngFor="let role of roles; let i = index">
-            <div class="flex items-center">
-              <input type="radio"
-                     [id]="'title' + i"
-                     [value]="role.value"
-                     (change)="updateSelection(role.value)"
-                      [checked]="role.value === selectedRoleTitle"
-                     class="w-4 h-4 text-purple-main bg-slate-100 border-slate-600 focus:ring-purple-main focus:ring-2"
-                     name="supermarketTitle">
-              <label [for]="'title' + i"
-                     class="cursor-pointer ml-2 text-sm font-medium">{{ role.viewValue }}</label>
-            </div>
-          </li>
-        </ul>
+<div class="flex flex-col">
+  <h2 class="text-slate-900">Create user</h2>
+  <div class="mb-6">
+    <label
+      class="block mb-2 text-sm font-medium text-gray-700"
+      for="roleSelector">Role</label>
+    <select #roleSelector
+            class="font-medium text-indigo-500 placeholder-gray-600 bg-indigo-100/90 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
+            id="roleSelector"
+            name="roleSelector"
+            required>
+      <option value="" disabled selected>Select role</option>
+      <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
+              *ngFor="let role of roles" [value]="role.value">
+        {{ role.viewValue }}
+      </option>
+    </select>
+  </div>
+  <div class="grid gap-6 mb-6 md:grid-cols-6">
+    <div>
+      <label
+        [class]="firstName.invalid && firstName.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userFirstName">First Name</label>
+      <input type="text"
+             id="userFirstName"
+             [(ngModel)]="user.firstName"
+             name="userFirstName"
+             placeholder="e.g. Alex"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.firstName}}"
+             [class]="firstName.invalid && firstName.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             #firstName="ngModel"
+             required>
+      <div *ngIf="firstName.invalid && firstName.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        First name is required.
+      </div>
+    </div>
+    <div class="">
+      <label
+        [class]="lastName.invalid && lastName.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userLastName">Last Name</label>
+      <input type="text"
+             id="userLastName"
+             [(ngModel)]="user.lastName"
+             name="userLastName"
+             placeholder="e.g. Popov"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.lastName}}"
+             [class]="lastName.invalid && lastName.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             #lastName="ngModel"
+             required>
+      <div *ngIf="lastName.invalid && lastName.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Last name is required.
+      </div>
+    </div>
+    <div class="">
+      <label
+        [class]="phoneNumber.invalid && phoneNumber.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userPhoneNumber">Phone number</label>
+      <input type="tel"
+             id="userPhoneNumber"
+             [(ngModel)]="user.phoneNumber"
+             name="userPhoneNumber"
+             placeholder="e.g. +359 888 888 888"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.phoneNumber}}"
+             [class]="phoneNumber.invalid && phoneNumber.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             #phoneNumber="ngModel"
+             required>
+      <div *ngIf="phoneNumber.invalid && phoneNumber.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Phone number is required.
+      </div>
+    </div>
+    <div class="">
+      <label
+        [class]="insuranceNumber.invalid && insuranceNumber.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userInsuranceNumber">Insurance number</label>
+      <input type="number"
+             id="userInsuranceNumber"
+             [(ngModel)]="user.insuranceNumber"
+             name="userInsuranceNumber"
+             placeholder="e.g. 333"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.insuranceNumber}}"
+             [class]="insuranceNumber.invalid && insuranceNumber.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             #insuranceNumber="ngModel"
+             required>
+      <div *ngIf="insuranceNumber.invalid && insuranceNumber.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Insurance number is required.
+      </div>
+    </div>
+    <div class="">
+      <label
+        [class]="officeNumber.invalid && officeNumber.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userOfficeNumber">Office number</label>
+      <input type="number"
+             id="userOfficeNumber"
+             [(ngModel)]="user.officeNumber"
+             name="userOfficeNumber"
+             placeholder="e.g. 3153"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.officeNumber}}"
+             [class]="officeNumber.invalid && officeNumber.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             #officeNumber="ngModel"
+             required>
+      <div *ngIf="officeNumber.invalid && officeNumber.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Office number is required.
+      </div>
+    </div>
+    <div class="">
+      <label
+        [class]="birthDate.invalid && birthDate.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userBirthDate">Birth date</label>
+      <input type="date"
+             id="userBirthDate"
+             [(ngModel)]="user.birthDate"
+             name="userBirthDate"
+             placeholder="e.g. 12/01/01"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.birthDate}}"
+             [class]="birthDate.invalid && birthDate.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             #birthDate="ngModel"
+             required>
+      <div *ngIf="birthDate.invalid && birthDate.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Birth date is required.
       </div>
     </div>
   </div>
-  <div class="form-group mt-2">
-    <label for="userEmail">Email address</label>
-    <input type="email" [(ngModel)]="user.email" class="form-control"
-           id="userEmail" aria-describedby="emailHelp" placeholder="Enter email"
-           value="{{user.email}}" [ngModelOptions]="{standalone:true}">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  <div>
+    <label
+      [class]="email.invalid && email.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+      for="email">Email</label>
+    <input type="email"
+           id="email"
+           [(ngModel)]="user.email"
+           name="email"
+           placeholder="e.g. user@example.com"
+           [ngModelOptions]="{standalone:true}"
+           value="{{user.email}}"
+           [class]="email.invalid && email.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+           #email="ngModel"
+           required>
+    <div *ngIf="email.invalid && email.touched"
+         class="mt-2 text-sm text-red-600 dark:text-red-500">
+      A valid email is required.
+    </div>
   </div>
-  <div class="form-group mt-2">
-    <label for="userFirstName">First Name</label>
-    <input type="text" [(ngModel)]="user.firstName"
-           class="form-control" id="userFirstName"
-           placeholder="Enter first name" value="{{user.firstName}}" [ngModelOptions]="{standalone:true}">
-  </div>
-  <div class="form-group mt-2">
-    <label for="userLastName">Last Name</label>
-    <input type="text" [(ngModel)]="user.lastName" class="form-control"
-           id="userLastName" placeholder="Enter last name" value="{{user.lastName}}"
-           [ngModelOptions]="{standalone:true}">
-  </div>
-  <div class="form-group mt-2">
-    <label for="userPhoneNumber">Phone Number</label>
-    <input type="text" [(ngModel)]="user.phoneNumber" class="form-control"
-           id="userPhoneNumber" placeholder="Enter phone number" value="{{user.phoneNumber}}"
-           [ngModelOptions]="{standalone:true}">
-  </div>
-  <div class="form-group mt-2">
-    <label for="userInsuranceNumber">Insurance Number</label>
-    <input type="number" [(ngModel)]="user.insuranceNumber" class="form-control"
-           id="userInsuranceNumber" placeholder="Enter insurance number" value="{{user.insuranceNumber}}"
-           [ngModelOptions]="{standalone:true}">
-  </div>
-  <div class="form-group mt-2">
-    <label for="userOfficeNumber">Office Number</label>
-    <input type="number" [(ngModel)]="user.officeNumber" class="form-control"
-           id="userOfficeNumber" placeholder="Enter office number" value="{{user.officeNumber}}"
-           [ngModelOptions]="{standalone:true}">
-  </div>
-  <div class="mt-2">
-    <label for="userBirthDate">Birth Date</label>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <input class="form-control" matInput [matDatepicker]="picker" [(ngModel)]="user.birthDate"
-           [ngModelOptions]="{standalone:true}" id="userBirthDate">
-  </div>
-  <hr>
-  <div class="form-group mt-2 row">
-    <form [formGroup]="passwordForm" autocomplete="off" novalidate>
-      <div class="mb-3 row">
-        <label for="password" class="col-form-label col-sm-2">Password:</label>
-        <div class="col-md-5">
-          <input type="password" id="password" formControlName="password" class="form-control"/>
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
-        </div>
+  <form class="space-y-6 mt-6" [formGroup]="passwordForm" autocomplete="off" novalidate>
+    <div>
+      <label *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched" for="password"
+             class="block mb-2 text-sm font-medium text-red-600">Password</label>
+      <label *ngIf="!passwordForm.get('password')?.invalid || !passwordForm.get('password')?.touched"
+             for="password"
+             class="block mb-2 text-sm font-medium text-gray-700">Password</label>
+      <input type="password"
+             id="password"
+             formControlName="password"
+             placeholder="••••••••"
+             [class]="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             required>
+      <div *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <span *ngIf="validateControl('password') && hasError('password', 'required')">Password is required.</span>
       </div>
-      <div class="mb-3 row">
-        <label for="confirm" class="col-form-label col-sm-2">Confirm Password:</label>
-        <div class="col-md-5">
-          <input type="password" id="confirm" formControlName="confirm" class="form-control"/>
-        </div>
+    </div>
+    <div>
+      <label *ngIf="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched" for="password"
+             class="block mb-2 text-sm font-medium text-red-600">Confirm Password</label>
+      <label *ngIf="!passwordForm.get('confirm')?.invalid || !passwordForm.get('confirm')?.touched"
+             for="confirm"
+             class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
+      <input type="password"
+             id="confirm"
+             formControlName="confirm"
+             placeholder="••••••••"
+             [class]="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             required>
+      <div *ngIf="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Password confirmation is required.
       </div>
-      <hr>
-      <button type="submit" (click)="update(user, passwordForm.value, roleSelector.value)"
-              [disabled]="!passwordForm.valid" class="btn btn-primary mt-3">Submit
-      </button>
-    </form>
-  </div>
+    </div>
+    <button type="submit"
+            (click)="update(user, passwordForm.value, roleSelector.value)"
+            [disabled]="!passwordForm.valid"
+            class="disabled:bg-indigo-50 disabled:text-purple-300 ease-in-out text-indigo-600 transition-colors text-heading4-medium bg-indigo-100/90 hover:bg-indigo-200/50 border-2 border-indigo-200/30 hover:border-indigo-200/50 active:bg-indigo-200/60 rounded-3xl px-16 py-1.5 max-md:hidden shadow-md">
+      Submit
+    </button>
+  </form>
 </div>
