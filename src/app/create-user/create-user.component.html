@@ -8,6 +8,40 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <div class="w-full md:w-1/2 px-3 mb-3">
+      <label class="text-slate-300" for="dropdownRadioButton">Market</label>
+      <button (click)="toggleDropdown()"
+              class="bg-slate-800 border-0 text-white placeholder-gray-400 font-medium rounded-lg p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center inline-flex items-center"
+              id="dropdownRadioButton"
+              type="button">
+        {{ selectedRoleTitle || 'Please choose an option' }}
+        <svg aria-hidden="true" class="w-2.5 h-2.5 ml-2.5" fill="none" viewBox="0 0 10 6"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="m1 1 4 4 4-4" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"/>
+        </svg>
+      </button>
+      <div *ngIf="isDropdownVisible"
+           class="w-full bg-slate-800 divide-gray-100 rounded-xl shadow-lg mt-2">
+        <ul aria-labelledby="dropdownRadioButton"
+            class="p-3 space-y-3 text-sm text-slate-200">
+          <li *ngFor="let role of roles; let i = index">
+            <div class="flex items-center">
+              <input type="radio"
+                     [id]="'title' + i"
+                     [value]="role.value"
+                     (change)="updateSelection(role.value)"
+                      [checked]="role.value === selectedRoleTitle"
+                     class="w-4 h-4 text-purple-main bg-slate-100 border-slate-600 focus:ring-purple-main focus:ring-2"
+                     name="supermarketTitle">
+              <label [for]="'title' + i"
+                     class="cursor-pointer ml-2 text-sm font-medium">{{ role.viewValue }}</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="form-group mt-2">
     <label for="userEmail">Email address</label>

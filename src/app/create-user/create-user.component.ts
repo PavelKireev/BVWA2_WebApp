@@ -23,6 +23,8 @@ export class CreateUserComponent {
   passwordForm!: FormGroup;
   errorMessage: string = '';
   showError: boolean = false;
+  isDropdownVisible = false;
+  selectedRoleTitle: string | null = null;
 
   @Output()
   roles: Role[] = [
@@ -83,6 +85,21 @@ export class CreateUserComponent {
       next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK" )
     });
   }
+
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
+  }
+
+  updateSelection(title: string) {
+    this.selectedRoleTitle = title;
+    this.roles.forEach(role => {
+      if (role.viewValue === title) {
+        this.user.role = role.value;
+      }
+    });
+    this.toggleDropdown();
+  }
+
 }
 
 export class UserCreateDto {
