@@ -1,48 +1,109 @@
- <div>
-   <h2>My Working Hours</h2>
-   <table class="table">
-     <thead>
-       <tr>
-         <th scope="col">#</th>
-         <th scope="col">Day Of A Week</th>
-         <th scope="col">Hour From</th>
-         <th scope="col">Hours Couns</th>
-         <th scope="col"></th>
-       </tr>
-     </thead>
-     <tbody *ngFor="let workingHoursItem of list | async; let i = index">
-       <tr>
-         <th scope="row">{{i + 1}} {{workingHoursItem.id}}</th>
-         <td>{{workingHoursItem.dayOfWeek}}</td>
-         <td>{{workingHoursItem.hourFrom}}</td>
-         <td>{{workingHoursItem.hoursCount}}</td>
-         <td><button type="button" class="btn btn-danger" (click)="delete(workingHoursItem.id)">Delete</button></td>
-       </tr>
-     </tbody>
-   </table>
-   <div class="card card-body">
-     <div class="form-check form-check-inline mt-3">
-       <mat-form-field appearance="fill">
-         <mat-label>Day of a week</mat-label>
-         <mat-select #daySelector>
-           <mat-option *ngFor="let day of days" [value]="day">
-             {{day}}
-           </mat-option>
-         </mat-select>
-       </mat-form-field>
-     </div>
-     <div class="form-check form-check-inline mt-2">
-       <div class="form-group mt-2">
-         <label for="workingHoursHoursCount">Hours Count</label>
-         <input type="number" min="1" max="8" [(ngModel)]="workingHours.hoursCount"
-                class="form-control" id="workingHoursHoursCount"
-                placeholder="Enter Hours Count" value="{{workingHours.hoursCount}}" [ngModelOptions]="{standalone:true}">
-       </div>
-     </div>
-     <div class="form-check form-check-inline mt-2">
-       <div class="form-group mt-2">
-         <a class="btn btn-success" (click)="create(workingHours, daySelector.value)">Add</a>
-       </div>
-     </div>
-   </div>
- </div>
+<div class="mt-8">
+
+  <div class="relative bg-gray-100 rounded-3xl overflow-hidden shadow-md">
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('/assets/images/working-hours.png'); filter: blur(3px);"></div>
+
+    <div class="absolute inset-0 bg-slate-100/30"></div>
+    <h4
+      class="relative px-2 py-1 max-w-fit bg-white/40 font-semibold text-gray-700 rounded-tl-3xl rounded-br-2xl rounded-tr-2xl">
+      My working hours</h4>
+    <div class="py-8 px-16 mx-auto max-w-screen-xl flex flex-row justify-evenly items-center gap-5 relative">
+      <div *ngIf="list | async as workingHoursList"
+           class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="overflow-hidden rounded-2xl shadow-md mb-6">
+            <table class="w-full text-sm text-left text-gray-900">
+              <thead class="text-sm font-semibold text-center bg-indigo-100">
+              <tr>
+                <th scope="col"
+                    class="py-3.5 px-4">
+                  No.
+                </th>
+                <th scope="col"
+                    class="py-3.5 px-4">
+                  Day
+                </th>
+                <th scope="col"
+                    class="py-3.5 px-4">
+                  Hour From
+                </th>
+                <th scope="col"
+                    class="py-3.5 px-4">
+                  Hours Count
+                </th>
+                <th scope="col"
+                    class="py-3.5 px-4">
+                </th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let workingHoursItem of list | async; let i = index"
+                     class="font-normal bg-gray-100 divide-y">
+              <tr>
+                <th scope="row" class="px-6 py-4">
+                  {{i + 1}}
+                </th>
+                <td class="px-6 py-4">
+                  {{workingHoursItem.dayOfWeek}}
+                </td>
+                <td class="px-6 py-4">
+                  {{workingHoursItem.hourFrom}}
+                </td>
+                <td class="px-6 py-4">
+                  {{workingHoursItem.hoursCount}}
+                </td>
+                <td class="px-6 py-4">
+                  <button (click)="delete(workingHoursItem.id)"
+                          class="text-gray-500 transition-colors duration-200 hover:text-red-600 active:text-red-800 focus:outline-none"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-column justify-center bg-indigo-100/80 rounded-3xl shadow-md">
+        <div class="grid gap-3 md:grid-cols-2 p-4">
+          <div>
+            <select #daySelector
+                    class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
+                    id="doctorSelector"
+                    name="doctorSelector"
+                    required>
+              <option value="" disabled selected>Day of the week</option>
+              <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
+                      *ngFor="let day of days" [value]="day">
+                {{ day }}
+              </option>
+            </select>
+          </div>
+          <div class="">
+            <input type="number"
+                   id="userOfficeNumber"
+                   [(ngModel)]="workingHours.hoursCount"
+                   name="userOfficeNumber"
+                   placeholder="e.g. 4"
+                   [ngModelOptions]="{standalone:true}"
+                   value="{{workingHours.hoursCount}}"
+                   class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
+                   [class]="hoursCount.invalid && hoursCount.touched ? 'ring-2 ring-red-600 border-0' : 'ring-2 border-0 ring-indigo-200'"
+                   #hoursCount="ngModel"
+                   required>
+          </div>
+        </div>
+        <button (click)="create(workingHours, daySelector.value)"
+                class="text-xl font-medium text-gray-800 bg-amber-300 mx-4 mb-3 ease-in-out transition-colors hover:bg-yellow-300 border-2 border-amber-300 hover:border-amber-300 active:bg-amber-400 rounded-3xl px-16 py-1.5 max-md:hidden shadow-md">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
