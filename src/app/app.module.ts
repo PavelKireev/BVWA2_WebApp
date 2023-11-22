@@ -24,6 +24,10 @@ import { WorkingHoursComponent } from './working-hours/working-hours.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { WorkingHoursService } from './service/working-hours.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
+import {HttpInterceptor} from "./service/http.interceptor";
+import {NotFoundComponent} from "./error-pages/not-found.component";
+import {LandingComponent} from "./landing/landing.component";
+import {SidebarComponent} from "./sidebar/sidebar.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -36,7 +40,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'working-hours', component: WorkingHoursComponent },
-  { path: 'create-user', component: CreateUserComponent }
+  { path: 'create-user', component: CreateUserComponent },
+  { path: 'not-found', component: NotFoundComponent }
 ];
 
 export function tokenGetter() {
@@ -56,8 +61,9 @@ export function tokenGetter() {
     RegisterUserComponent,
     WorkingHoursComponent,
     CreateUserComponent,
-    SidebarComponent,
-    LandingComponent
+    NotFoundComponent,
+    LandingComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

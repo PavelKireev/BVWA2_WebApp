@@ -45,16 +45,16 @@
                   {{i + 1}}
                 </th>
                 <td class="px-6 py-4">
-                  {{appointment.doctorEmail}}
+                  {{appointment.doctorName}}
                 </td>
                 <td class="px-6 py-4">
-                  {{appointment.patientEmail}}
+                  {{appointment.patientName}}
                 </td>
                 <td class="px-6 py-4">
                   {{appointment.dateTime}}
                 </td>
                 <td class="px-6 py-4">
-                  <button (click)="delete($event,appointment.id)"
+                  <button (click)="delete($event,appointment.uuid)"
                           class="text-gray-500 transition-colors duration-200 hover:text-red-600 active:text-red-800 focus:outline-none"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
