@@ -1,22 +1,65 @@
-<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-  <fieldset>
-    <legend>Hello there!</legend>
-    <!--    <div *ngIf="invalidLogin" class="alert alert-danger">Wasn't your password or email?</div>-->
-    <div class="form-group">
-      <input type="email" id="email" name="email" ngModel class="form-control" placeholder="email" required
-             autofocus aria-label="Email address">
+<div class="mt-8">
+
+  <div class="relative bg-gray-100 rounded-3xl overflow-hidden z-20 shadow-md">
+
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('/assets/images/sign-in.png'); filter: blur(3px);"></div>
+
+    <div class="absolute inset-0 bg-slate-100/30"></div>
+
+    <div class="py-8 px-24 mx-auto max-w-screen-xl grid grid-cols-2 gap-5 relative items-start">
+      <div class="flex flex-col justify-center text-slate-800 bg-white/30 rounded-3xl py-3 px-2.5">
+        <h1 class="text-heading2-semibold font-extrabold tracking-tight leading-none z-2 md:text-5xl lg:text-6xl mb-4">
+          Empowering Your Health Journey</h1>
+        <p class="mb-6 text-heading4-medium font-medium z-2 lg:text-xl dark:text-gray-400">
+          Connecting Patients and Doctors with Ease. <br>Simplifying appointments, enhancing care.
+        </p>
+      </div>
+      <div>
+        <div class="lg:max-w-xl p-6 space-y-8 sm:p-8 rounded-3xl shadow-xl bg-slate-200/90">
+          <h2 class="text-heading2-semibold text-gray-700">
+            Sign in to Norman.zs
+          </h2>
+          <div *ngIf="invalidLogin" class="alert alert-danger">Wasn't your password or email?</div>
+          <form action="#" class="space-y-6">
+            <div>
+              <label for="username"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+              <input type="email"
+                     id="username"
+                     name="username"
+                     placeholder="username@email.com"
+                     ngModel
+                     autofocus
+                     aria-label="Email address"
+                     class="form-input-store border-indigo-400 border-2" required>
+            </div>
+            <div>
+              <label for="password"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+              <input type="password"
+                     id="password"
+                     name="password"
+                     ngModel
+                     aria-label="Password"
+                     placeholder="••••••••"
+                     class="form-input-store border-indigo-400 border-2" required>
+            </div>
+            <button
+                    class="flex flex-row ease-in-out text-white text-base-regular bg-indigo-400 hover:bg-indigo-400/70 border-2 border-indigo-400/30 hover:border-indigo-400/50 active:bg-indigo-400/60 rounded-full px-6 py-1 max-md:hidden shadow-md"
+                    type="submit">
+              Sign in
+            </button>
+            <div class="text-sm font-medium text-gray-700">
+              Not registered? <a [routerLink]="['/registration']"
+                                 routerLinkActive="active"
+                                 [routerLinkActiveOptions]="{exact: true}"
+                                 class="text-base-medium no-underline text-slate-700 hover:text-indigo-600 hover:underline">
+              Create account</a>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <input type="password" id="password" name="password" ngModel class="form-control" placeholder="password" required
-             aria-label="Password">
-    </div>
-    <button class="btn btn-lg btn-primary btn-block"
-            type="submit" title="Login"
-            [routerLink]="['./profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sign in
-    </button>
-    <p class="register-p">Don't have an account? <a class="registration-link" [routerLink]="['/registration']"
-                                                    routerLinkActive="active"
-                                                    [routerLinkActiveOptions]="{exact: true}">Sigh Up</a>
-    </p>
-  </fieldset>
-</form>
+  </div>
+</div>

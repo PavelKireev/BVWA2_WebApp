@@ -1,57 +1,131 @@
-<div class="card">
-  <div class="card-body">
-    <h1 class="card-title mb-4">Sign Up</h1>
-    <form (ngSubmit)="registerUser(registerForm.value)" [formGroup]="registerForm" autocomplete="off" novalidate>
-      <div class="mb-3 row">
-        <label class="col-form-label col-sm-2" for="firstName">First Name</label>
-        <div class="col-md-5">
-          <input class="form-control" formControlName="firstName" id="firstName" type="text"/>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label class="col-form-label col-sm-2" for="lastName">Last Name</label>
-        <div class="col-md-5">
-          <input class="form-control" formControlName="lastName" id="lastName" type="text"/>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label class="col-form-label col-sm-2" for="email">Email</label>
-        <div class="col-md-5">
-          <input class="form-control" formControlName="email" id="email" type="email"/>
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('email') && hasError('email', 'email')">
-            Please provide a valid email</em>
-          <em *ngIf="validateControl('email') && hasError('email', 'required')">
-            Email is required</em>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label class="col-form-label col-sm-2" for="password">Password</label>
-        <div class="col-md-5">
-          <input class="form-control" formControlName="password" id="password" type="password"/>
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControl('password') && hasError('password', 'required')">
-            Password is required</em>
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label class="col-form-label col-sm-2" for="confirm">Confirm password</label>
-        <div class="col-md-5">
-          <input class="form-control" formControlName="confirm" id="confirm" type="password"/>
-        </div>
-      </div>
-      <br>
-      <div class="mb-3 row">
-        <div class="col-md-1">
-          <button class="btn btn-success" type="submit">Submit</button>
-        </div>
-        <p class="login-p">Already have an account? <a [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/login']"
-                                                       class="login-link"
-                                                       routerLinkActive="active">Sign in</a>
+<div>
+  <div class="relative bg-gray-100 rounded-3xl overflow-hidden z-20 shadow-md">
+
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('/assets/images/sign-up.png'); filter: blur(3px);"></div>
+
+    <div class="absolute inset-0 bg-slate-100/30"></div>
+
+    <div class="py-8 px-12 mx-auto max-w-screen-xl grid grid-cols-2 gap-5 relative items-start">
+      <div class="flex flex-col justify-center text-slate-800 bg-white/30 rounded-3xl py-3 px-2.5">
+        <h1 class="text-heading2-semibold font-extrabold tracking-tight leading-none z-2 md:text-5xl lg:text-6xl mb-4">
+          Empowering Your Health Journey</h1>
+        <p class="mb-6 text-heading4-medium font-medium z-2 lg:text-xl dark:text-gray-400">
+          Connecting Patients and Doctors with Ease. <br>Simplifying appointments, enhancing care.
         </p>
       </div>
-    </form>
+      <div>
+        <div class="lg:max-w-xl p-6 space-y-8 sm:p-8 rounded-3xl shadow-xl bg-slate-200/90">
+          <h2 class="text-heading2-semibold text-gray-700">
+            Sign up to Norman.io
+          </h2>
+          <form class="space-y-3" (ngSubmit)="registerUser(registerForm.value)" [formGroup]="registerForm" autocomplete="off" novalidate>
+            <div class="flex flex-wrap -mx-4">
+
+              <div class="w-full md:w-1/2 px-3 mb-3">
+                <label *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                       for="firstName"
+                       class="block mb-2 text-sm font-medium text-red-600">First Name</label>
+                <label *ngIf="!registerForm.get('firstName')?.invalid || !registerForm.get('firstName')?.touched"
+                       for="firstName"
+                       class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
+                <input type="text"
+                       id="firstName"
+                       formControlName="firstName"
+                       placeholder="Enter your first name"
+                       [class]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+                       required>
+                <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                     class="mt-2 text-sm text-red-600 dark:text-red-500">
+                  First name is required.
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-3">
+                <label *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" for="lastName"
+                       class="block mb-2 text-sm font-medium text-red-600">Last Name</label>
+                <label *ngIf="!registerForm.get('lastName')?.invalid || !registerForm.get('lastName')?.touched"
+                       for="lastName"
+                       class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
+                <input type="text"
+                       id="lastName"
+                       formControlName="lastName"
+                       placeholder="Enter your last name"
+                       [class]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+                       required>
+                <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                     class="mt-2 text-sm text-red-600 dark:text-red-500">
+                  Last name is required.
+                </div>
+              </div>
+              <div class="w-full md:w-full px-3 mb-3">
+                <label *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" for="email"
+                       class="block mb-2 text-sm font-medium text-red-600">Email</label>
+                <label *ngIf="!registerForm.get('email')?.invalid || !registerForm.get('email')?.touched" for="email"
+                       class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                <input type="email"
+                       id="email"
+                       formControlName="email"
+                       placeholder="Enter your email"
+                       [class]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+                       required>
+                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                     class="mt-2 text-sm text-red-600 dark:text-red-500">
+                  Email is required.
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-3">
+                <label *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" for="password"
+                       class="block mb-2 text-sm font-medium text-red-600">Password</label>
+                <label *ngIf="!registerForm.get('password')?.invalid || !registerForm.get('password')?.touched"
+                       for="password"
+                       class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                <input type="password"
+                       id="password"
+                       formControlName="password"
+                       placeholder="••••••••"
+                       [class]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+                       required>
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                     class="mt-2 text-sm text-red-600 dark:text-red-500">
+                  Password is required, e.g. xAC7u9*}
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-3">
+                <label *ngIf="registerForm.get('confirm')?.invalid && registerForm.get('confirm')?.touched" for="confirm"
+                       class="block mb-2 text-sm font-medium text-red-600">Confirm Password</label>
+                <label *ngIf="!registerForm.get('confirm')?.invalid || !registerForm.get('confirm')?.touched"
+                       for="password"
+                       class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
+                <input type="password"
+                       id="confirm"
+                       formControlName="confirm"
+                       placeholder="••••••••"
+                       [class]="registerForm.get('confirm')?.invalid && registerForm.get('confirm')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+                       required>
+                <div *ngIf="registerForm.get('confirm')?.invalid && registerForm.get('confirm')?.touched"
+                     class="mt-2 text-sm text-red-600 dark:text-red-500">
+                  Password Confirmation is required.
+                </div>
+              </div>
+            </div>
+            <button [disabled]="!registerForm.valid"
+                    class="w-full bg-indigo-400 text-white text-base-medium transition-colors font-semibold duration-200 hover:bg-purple-400 rounded-full shadow-md py-2.5 active:bg-purple-500"
+                    type="submit">
+              Sign up
+            </button>
+            <div class="text-sm font-medium text-gray-700">
+              Already have an account?
+              <a [routerLink]="['/login']"
+                 routerLinkActive="active"
+                 [routerLinkActiveOptions]="{exact: true}"
+                 class="text-base-medium no-underline text-slate-700 hover:text-indigo-600 hover:underline">
+                Sign in</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
+  <p *ngIf="errorMessage" class="error-message text-red-600 font-bold">{{ errorMessage }}</p>
 </div>
+
