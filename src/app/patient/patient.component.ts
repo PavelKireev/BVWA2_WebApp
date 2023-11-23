@@ -30,7 +30,7 @@ export class PatientComponent {
   }
 
   isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
+    const token = sessionStorage.getItem("app.storage");
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return true;
     }
@@ -59,7 +59,7 @@ export class PatientComponent {
 }
 
 export class Patient {
-  id?: number;
+  uuid?: string = "";
   firstName?: string;
   lastName?: string;
   email?: string;

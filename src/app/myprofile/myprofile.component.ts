@@ -1,9 +1,7 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import { Component, Output } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { JwtHelperService } from "@auth0/angular-jwt";
-import configurl from '../../assets/config/config.json';
-import { AuthService } from "../service/auth.service";
+import {Component, Output} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../service/auth.service";
 
 @Component({
   selector: 'myprofile-component',
@@ -54,8 +52,7 @@ export class MyProfileComponent {
       return;
     }
 
-    let uuid: string = this.authService.getUserUuid();
-    user!.uuid = uuid;
+    user!.uuid = this.authService.getUserUuid();
     if (this.isPatient()) {
       this.httpClient.post<AuthUserDto>(this.baseUrl + `/patient/update`, JSON.stringify(user), {
         headers: new HttpHeaders({

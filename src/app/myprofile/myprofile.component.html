@@ -12,7 +12,8 @@
                id="userEmail"
                disabled aria-describedby="emailHelp"
                placeholder="your email should be here"
-               class="text-[18px] py-0.5 font-medium bg-indigo-100/60 border-0 text-slate-800 text-center rounded-xl cursor-not-allowed autofill:none"
+               class="text-[18px] py-0.5 font-medium bg-indigo-100/60 border-0 text-slate-800
+                      text-center rounded-xl cursor-not-allowed autofill:none"
                value="{{user.email}}" [ngModelOptions]="{standalone:true}">
         <small id="emailHelp" class="text-gray-200 text-muted">We'll never share your email with anyone else.</small>
       </div>
@@ -25,7 +26,8 @@
           <label for="userFirstName" class="text-gray-700">First Name</label>
           <input type="text" [(ngModel)]="user.firstName"
                  id="userFirstName"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your first name"
                  value="{{user.firstName}}" [ngModelOptions]="{standalone:true}">
         </div>
@@ -33,35 +35,41 @@
           <label for="userLastName" class="text-gray-700">Last name</label>
           <input type="text" [(ngModel)]="user.lastName"
                  id="userLastName"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your last name"
                  value="{{user.lastName}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div class="w-full md:w-1/2 px-3 mb-4">
+        <div *ngIf="isPatient()" class="w-full md:w-1/2 px-3 mb-4" >
           <label for="userBirthDate" class="text-gray-700">Birth Date</label>
           <input type="date" [(ngModel)]="user.birthDate"
                  id="userBirthDate"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  value="{{user.birthDate}}" [ngModelOptions]="{standalone:true}">
         </div>
         <div class="w-full md:w-1/2 px-3 mb-4">
           <label for="userPhoneNumber" class="text-gray-700">Phone Number</label>
           <input type="tel" [(ngModel)]="user.phoneNumber"
                  id="userPhoneNumber"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your phone number"
                  value="{{user.phoneNumber}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div class="w-full md:w-1/2 px-3 mb-4">
+        <div *ngIf="isDoctor()" class="w-full md:w-1/2 px-3 mb-4" >
           <label for="userOfficeNumber" class="text-gray-700">Office Number</label>
           <input type="number" [(ngModel)]="user.officeNumber"
                  id="userOfficeNumber"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your office number"
                  value="{{user.officeNumber}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <button (click)="update()"
-                class="text-white bg-purple-400/70 transition-colors ease-in-out hover:bg-purple-400 hover:border-purple-500/30 active:bg-purple-400/80 border-2 border-purple-300 w-full mx-3 text-[18px] font-semibold rounded-3xl py-1.5 shadow-md"
+        <button (click)="update(user)"
+                class="text-white bg-purple-400/70 transition-colors ease-in-out hover:bg-purple-400
+                       hover:border-purple-500/30 active:bg-purple-400/80 border-2 border-purple-300
+                       w-full mx-3 text-[18px] font-semibold rounded-3xl py-1.5 shadow-md"
                 type="submit">Submit
         </button>
       </div>

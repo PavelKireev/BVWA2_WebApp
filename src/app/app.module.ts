@@ -45,7 +45,7 @@ const routes: Routes = [
 ];
 
 export function tokenGetter() {
-  return localStorage.getItem("jwt");
+  return sessionStorage.getItem("app.token");
 }
 
 @NgModule({

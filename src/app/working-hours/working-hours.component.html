@@ -74,9 +74,11 @@
         <div class="grid gap-3 md:grid-cols-2 p-4">
           <div>
             <select #daySelector
-                    class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
-                    id="doctorSelector"
-                    name="doctorSelector"
+                    class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50
+                           ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm
+                           w-full py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
+                    id="daySelector"
+                    name="daySelector"
                     required>
               <option value="" disabled selected>Day of the week</option>
               <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
@@ -87,13 +89,34 @@
           </div>
           <div class="">
             <input type="number"
-                   id="userOfficeNumber"
+                   id="hourFrom"
+                   [(ngModel)]="workingHours.hourFrom"
+                   name="hourFrom"
+                   min="0"
+                   max="12"
+                   placeholder="Hour from"
+                   [ngModelOptions]="{standalone:true}"
+                   value="{{workingHours.hourFrom}}"
+                   class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50
+                          ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full
+                          py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
+                   [class]="hourFrom.invalid && hourFrom.touched ? 'ring-2 ring-red-600 border-0' : 'ring-2 border-0 ring-indigo-200'"
+                   #hourFrom="ngModel"
+                   required>
+          </div>
+          <div class="">
+            <input type="number"
+                   id="hoursCount"
                    [(ngModel)]="workingHours.hoursCount"
-                   name="userOfficeNumber"
-                   placeholder="e.g. 4"
+                   name="hoursCount"
+                   min="1"
+                   max="12"
+                   placeholder="Hours count"
                    [ngModelOptions]="{standalone:true}"
                    value="{{workingHours.hoursCount}}"
-                   class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
+                   class="font-medium text-gray-800 placeholder-gray-600 bg-gray-50
+                          ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full
+                          py-2.5 justify-center focus:ring-2 focus:ring-purple-400"
                    [class]="hoursCount.invalid && hoursCount.touched ? 'ring-2 ring-red-600 border-0' : 'ring-2 border-0 ring-indigo-200'"
                    #hoursCount="ngModel"
                    required>

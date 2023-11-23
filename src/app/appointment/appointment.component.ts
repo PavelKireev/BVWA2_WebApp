@@ -18,9 +18,9 @@ export class AppointmentComponent implements OnInit {
     title = 'Zdravotni System App';
 
     @Output()
-    doctorList?: (string | undefined)[];
+    doctorList?: Doctor[];
     @Output()
-    patientList?: (string | undefined)[];
+    patientList?: Patient[];
     @Output()
     dateTimeList?: (string | undefined)[];
     @Output()
@@ -29,88 +29,94 @@ export class AppointmentComponent implements OnInit {
     constructor(
         private httpClient: HttpClient,
         private authService: AuthService,
-    ) { }
-
-  ngOnInit(): void {
-    this.fillTable();
-    this.httpClient.get<Patient[]>( "api/patient/list")
-                   .pipe(
-                     mergeMap( (patients: Patient[]) => {
-                       this.patientList = patients.map(patient => patient.email);
-                       return this.httpClient.get<Doctor[]>("api/doctor/list")
-                     }),
-                     mergeMap((doctors: Doctor[]) =>
-                       this.doctorList = doctors.map((doctor => doctor.email)))
-                   ).subscribe();
-  }
-
-  update(dateTime: string, doctorUuid: string, patientEmail: string) {
-    const data: AppointmentModel = {
-      patientName: patientEmail,
-      doctorName: doctorUuid,
-      dateTime: dateTime
+    ) {
     }
-    this.httpClient.post("api/appointment/create",
-      JSON.stringify(data),
-      {
-        headers: new HttpHeaders({
-          "Content-Type": "application/json"
-        })
-      }
-    ).pipe(
-      mergeMap(
-        () => {
-          this.fillTable();
-          return this.httpClient.get<string[]>("api/working-hours/available?doctorUuid=" + doctorUuid)
-        }),
-      mergeMap((value) => this.dateTimeList = value)
-    ).subscribe();
-  }
 
-  fillTable(): void {
-    this.appointmentTable = [];
-    this.httpClient.get<AppointmentDto[]>("api/appointment/list").subscribe(
-      (appointments: AppointmentDto[]) => { this.appointmentTable = appointments; }
-    );
-    console.log(this.appointmentTable?.toString());
-  }
+    ngOnInit(): void {
+        this.fillTable();
+        this.httpClient.get<Patient[]>("api/patient/list")
+            .pipe(
+                mergeMap((patients: Patient[]) => {
+                    this.patientList = patients;
+                    return this.httpClient.get<Doctor[]>("api/doctor/list")
+                }),
+                mergeMap((doctors: Doctor[]) =>
+                    this.doctorList = doctors
+                )).subscribe();
+        //workaround
+        this.dateTimeList = ["12-12-2020 12:00", "12-12-2020 12:30"]
+    }
 
-  onDoctorChange($event: any) {
-    this.httpClient.get<string[]>("api/working-hours/available?doctorUuid=" + $event.value)
-                   .subscribe({ next: value => this.dateTimeList = value });
-  }
+    update(dateTime: string, doctorUuid: string, patientUuid: string) {
+        let date = new Date(dateTime);
+        const data: AppointmentModel = {
+            patientUuid: patientUuid,
+            doctorUuid: doctorUuid,
+            dateTime: date
+        }
+        this.httpClient.post("api/appointment/create",
+            JSON.stringify(data),
+            {
+                headers: new HttpHeaders({
+                    "Content-Type": "application/json"
+                })
+            }
+        ).pipe(
+            mergeMap(
+                () => {
+                    this.fillTable();
+                    return this.httpClient.get<string[]>("api/working-hours/available?doctorUuid=" + doctorUuid)
+                }),
+            mergeMap((value) => this.dateTimeList = ["12-12-2020 12:00", "12-12-2020 12:30"])
+        ).subscribe();
+    }
 
-  isUserAuthenticated(): boolean {
-    return this.authService.isUserAuthenticated();
-  }
+    fillTable(): void {
+        this.appointmentTable = [];
+        this.httpClient.get<AppointmentDto[]>("api/appointment/list").subscribe(
+            (appointments: AppointmentDto[]) => {
+                this.appointmentTable = appointments;
+            }
+        );
+        console.log(this.appointmentTable?.toString());
+    }
 
-  isAdmin(): boolean {
-    return this.authService.isAdmin();
-  }
+    onDoctorChange($event: any) {
+        this.httpClient.get<string[]>("api/working-hours/available?doctorUuid=" + $event.value)
+            .subscribe({next: value => this.dateTimeList = value});
+    }
 
-  isDoctor(): boolean {
-    return this.authService.isDoctor();
-  }
+    isUserAuthenticated(): boolean {
+        return this.authService.isUserAuthenticated();
+    }
 
-  delete($event: any, id: number) {
-    this.httpClient.delete("api/appointment/delete?id=" + id).subscribe({
-        next: _ => this.fillTable()
-      }
-    );
-  }
+    isAdmin(): boolean {
+        return this.authService.isAdmin();
+    }
+
+    isDoctor(): boolean {
+        return this.authService.isDoctor();
+    }
+
+    delete($event: any, id: number) {
+        this.httpClient.delete("api/appointment/delete?id=" + id).subscribe({
+                next: _ => this.fillTable()
+            }
+        );
+    }
 }
 
 interface AppointmentModel {
-  doctorName: string;
-  patientName: string;
-  dateTime: string;
+    doctorUuid: string;
+    patientUuid: string;
+    dateTime: Date;
 }
 
 interface AppointmentDto {
-  uuid: number;
-  doctorName: string;
-  doctorUuid: string;
-  patientName: string;
-  patientUuid: string;
-  dateTime: string;
+    uuid: number;
+    doctorName: string;
+    doctorUuid: string;
+    patientName: string;
+    patientUuid: string;
+    dateTime: string;
 }
