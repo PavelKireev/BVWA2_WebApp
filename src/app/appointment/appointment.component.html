@@ -52,10 +52,10 @@
                   {{appointment.patientName}}
                 </td>
                 <td class="px-6 py-4">
-                  {{appointment.dateTime}}
+                  {{appointment.time | date: 'yyyy-MM-dd HH:mm'}}
                 </td>
                 <td *ngIf="isDoctor() || isAdmin()" class="px-6 py-4">
-                  <button (click)="delete($event,appointment.uuid)"
+                  <button (click)="delete($event, appointment.uuid)"
                           class="text-gray-500 transition-colors duration-200 hover:text-red-600
                                  active:text-red-800 focus:outline-none"
                   >

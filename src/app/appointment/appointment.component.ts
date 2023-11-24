@@ -52,7 +52,7 @@ export class AppointmentComponent implements OnInit {
         const data: AppointmentModel = {
             patientUuid: patientUuid,
             doctorUuid: doctorUuid,
-            dateTime: date
+            time: date
         }
         this.httpClient.post("api/appointment/create",
             JSON.stringify(data),
@@ -73,12 +73,20 @@ export class AppointmentComponent implements OnInit {
 
     fillTable(): void {
         this.appointmentTable = [];
-        this.httpClient.get<AppointmentDto[]>("api/appointment/list").subscribe(
-            (appointments: AppointmentDto[]) => {
-                this.appointmentTable = appointments;
-            }
-        );
-        console.log(this.appointmentTable?.toString());
+
+        if (this.authService.isPatient()) {
+            this.httpClient.get<AppointmentDto[]>("api/appointment/patient?patientUuid=" + this.authService.getUserUuid()).subscribe(
+                (appointments: AppointmentDto[]) => {
+                    this.appointmentTable = appointments;
+                }
+            );
+        } else if (this.authService.isDoctor() || this.authService.isAdmin()) {
+            this.httpClient.get<AppointmentDto[]>("api/appointment/list").subscribe(
+                (appointments: AppointmentDto[]) => {
+                    this.appointmentTable = appointments;
+                }
+            );
+        }
     }
 
     onDoctorChange($event: any) {
@@ -98,8 +106,8 @@ export class AppointmentComponent implements OnInit {
         return this.authService.isDoctor();
     }
 
-    delete($event: any, id: number) {
-        this.httpClient.delete("api/appointment/delete?id=" + id).subscribe({
+    delete($event: any, uuid: string) {
+        this.httpClient.delete("api/appointment/delete?uuid=" + uuid).subscribe({
                 next: _ => this.fillTable()
             }
         );
@@ -109,14 +117,14 @@ export class AppointmentComponent implements OnInit {
 interface AppointmentModel {
     doctorUuid: string;
     patientUuid: string;
-    dateTime: Date;
+    time: Date;
 }
 
 interface AppointmentDto {
-    uuid: number;
+    uuid: string;
     doctorName: string;
     doctorUuid: string;
     patientName: string;
     patientUuid: string;
-    dateTime: string;
+    time: string;
 }
