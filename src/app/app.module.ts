@@ -32,10 +32,10 @@ import {SidebarComponent} from "./sidebar/sidebar.component";
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
   {path: 'landing', component: LandingComponent},
-  { path: 'list', component: HomepageComponent },
-  { path: 'appointment', component: AppointmentComponent, canActivate: [AuthGuard] },
-  { path: 'doctor', component: DoctorComponent, canActivate: [AuthGuard] },
-  { path: 'patient', component: PatientComponent, canActivate: [AuthGuard] },
+  { path: 'list/:type', component: HomepageComponent }, // Updated route
+  { path: 'appointment', component: AppointmentComponent},
+  { path: 'doctor', component: DoctorComponent},
+  { path: 'patient', component: PatientComponent },
   { path: 'registration', component: RegisterUserComponent },
   { path: 'login', component: LoginComponent },
   { path: 'my-profile', component: MyProfileComponent },
