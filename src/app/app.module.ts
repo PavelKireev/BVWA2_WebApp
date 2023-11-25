@@ -31,7 +31,7 @@ import {NoAuthGuard} from "./guards/no-auth-guard.service";
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
   {path: 'landing', component: LandingComponent},
-  { path: 'list', component: HomepageComponent },
+  { path: 'list/:type', component: HomepageComponent }, // Updated route
   { path: 'appointment', component: AppointmentComponent},
   { path: 'doctor', component: DoctorComponent},
   { path: 'patient', component: PatientComponent },

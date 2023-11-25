@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../service/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sidebar',
@@ -7,17 +8,16 @@ import {AuthService} from "../service/auth.service";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public sidebarLinks = [
-    {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
-    {route: '/working-hours', imgURL: '/assets/assets/timer.svg', name: 'Working Hours'},
-    {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
-    {route: '/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors'},
-    {route: '/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'},
-    {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
-  ];
+    public sidebarLinks = [{
+        route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
+        {route: '/working-hours', imgURL: '/assets/assets/timer.svg', name: 'Working Hours'},
+        {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
+        {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
+        { route: '/list/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors' },
+        { route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients' }
+    ];
 
-
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   get isUserAuthenticated(): boolean {
