@@ -10,22 +10,23 @@ import {Router} from "@angular/router";
 export class SidebarComponent implements OnInit {
   public sidebarLinks : any[] = [];
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
 
       if (authService.isAdmin()) {
           this.sidebarLinks = [
               {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
+              {route: '/working-hours', imgURL: '/assets/assets/timer.svg', name: 'Working Hours'},
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
-              {route: '/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors'},
-              {route: '/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'},
-              {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'}
+              {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
+              {route: '/list/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors'},
+              {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'}
           ];
       } else if (authService.isDoctor()) {
           this.sidebarLinks = [
               {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
               {route: '/working-hours', imgURL: '/assets/assets/timer.svg', name: 'Working Hours'},
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
-              {route: '/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'}
+              {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'}
           ];
       } else {
           this.sidebarLinks = [
@@ -33,17 +34,7 @@ export class SidebarComponent implements OnInit {
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
           ];
       }
-    public sidebarLinks = [{
-        route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
-        {route: '/working-hours', imgURL: '/assets/assets/timer.svg', name: 'Working Hours'},
-        {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
-        {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
-        { route: '/list/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors' },
-        { route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients' }
-    ];
-
-  constructor(private authService: AuthService, private router: Router) {
-  }
+    }
 
   get isUserAuthenticated(): boolean {
     return this.authService.isUserAuthenticated();
