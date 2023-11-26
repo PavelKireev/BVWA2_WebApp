@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, Output } from "@angular/core";
+import {Component, OnInit, Output} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable } from "rxjs";
@@ -10,7 +10,7 @@ import configurl from '../../assets/config/config.json';
   templateUrl: './doctor.component.html',
   styleUrls: ['./doctor.component.css']
 })
-export class DoctorComponent {
+export class DoctorComponent implements OnInit {
 
   @Output()
   public doctor: Doctor = new Doctor();
