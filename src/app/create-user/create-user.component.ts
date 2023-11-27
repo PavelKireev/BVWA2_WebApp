@@ -22,7 +22,12 @@ export class CreateUserComponent {
   passwordForm!: FormGroup;
   @Output() roles: Role[] = [{value: 'DOCTOR', viewValue: 'Doctor'}, {value: 'PATIENT', viewValue: 'Patient'}];
 
-  constructor(private authService: AuthService, private jwtHelper: JwtHelperService, private httpClient: HttpClient, private passConfValidator: PasswordConfirmationValidatorService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService,
+              private jwtHelper: JwtHelperService,
+              private httpClient: HttpClient,
+              private passConfValidator: PasswordConfirmationValidatorService,
+              private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {

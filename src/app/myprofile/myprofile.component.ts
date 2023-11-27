@@ -72,7 +72,8 @@ export class MyProfileComponent {
         headers: new HttpHeaders({
           "Content-Type": "application/json"
         })
-      }).subscribe(response => console.log(response));
+      }).subscribe(
+        response => console.log(response));
     }
   }
 
@@ -92,6 +93,9 @@ export class MyProfileComponent {
     return this.authService.isPatient();
   }
 
+  changePassword() {
+    this.router.navigate(['password-change']);
+  }
 }
 
 export class AuthUserDto {
