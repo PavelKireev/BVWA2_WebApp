@@ -2,8 +2,6 @@
   <div class="bg-indigo-50 rounded-3xl md:py-4 xs:sm:md:lg:px-6 w-full mx-auto shadow-md">
     <!-- Nested User Card -->
     <div class="flex flex-col items-center justify-center gap-4 sm:py-4 md:lg:py-8 mb-4 bg-white/70 rounded-3xl">
-<!--      <div class="flex flex-col rounded-lg bg-slate-800 mb-6">-->
-
       <div class="flex flex-row items-center justify-center gap-4 py-8">
         <div class="flex justify-center">
           <div class="relative">
@@ -16,9 +14,17 @@
           </div>
         </div>
         <div class="text-center flex flex-col gap-2">
-          <div class="bg-purple-50 shadow-lg bg-opacity-60 text-center rounded-xl">
+          <div class="flex flex-row gap-2 justify-evenly ">
+            <div class="bg-purple-50 shadow-lg bg-opacity-60 text-center rounded-xl w-full">
             <span
               class="text-heading2-semibold border-0 text-gray-900 px-12">{{user.firstName}} {{user.lastName}}</span>
+            </div>
+
+              <button (click)="changePassword()" class="p-1 bg-violet-400 text-white rounded-lg">
+                <img alt="Profile picture" class="rounded-full !w-10 !h-8 object-cover border-3 border-slate-300"
+                     src="assets/assets/password.svg">
+              </button>
+
           </div>
           <input [(ngModel)]="user.email"
                  type="email"
@@ -31,7 +37,6 @@
           <small id="emailHelp" class="text-gray-200 text-muted">We'll never share your email with anyone else.</small>
         </div>
       </div>
-
     </div>
     <!-- User Information Details -->
     <form class="px-6 py-3 bg-indigo-100 rounded-3xl">
@@ -89,10 +94,4 @@
       </div>
     </form>
   </div>
-  <button (click)="changePassword()"
-          class="text-white bg-purple-400/70 transition-colors ease-in-out hover:bg-purple-400
-                       hover:border-purple-500/30 active:bg-purple-400/80 border-2 border-purple-300
-                       w-full mx-3 text-[18px] font-semibold rounded-3xl py-1.5 shadow-md"
-          type="submit">Change Password
-  </button>
 </div>
