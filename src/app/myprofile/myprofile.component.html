@@ -1,21 +1,35 @@
 <div class="mx-auto px-6">
   <div class="bg-indigo-50 rounded-3xl md:py-4 xs:sm:md:lg:px-6 w-full mx-auto shadow-md">
     <!-- Nested User Card -->
-    <div class="flex flex-row items-center justify-center gap-4 sm:py-4 md:lg:py-8 mb-4 bg-white/70 rounded-3xl">
+    <div class="flex flex-col items-center justify-center gap-4 sm:py-4 md:lg:py-8 mb-4 bg-white/70 rounded-3xl">
+<!--      <div class="flex flex-col rounded-lg bg-slate-800 mb-6">-->
 
-      <div class="mt-6 text-center flex flex-col gap-2">
-        <div class="bg-purple-50 shadow-lg bg-opacity-60 text-center rounded-xl">
-          <span class="text-heading2-semibold border-0 text-gray-900 px-12">{{user.firstName}} {{user.lastName}}</span>
+      <div class="flex flex-row items-center justify-center gap-4 py-8">
+        <div class="flex justify-center">
+          <div class="relative">
+            <input #imageInput type="file" (change)="onImageChange($event)" class="hidden">
+            <button (click)="imageInput.click()" class="absolute px-2 py-2 bg-violet-400 text-white rounded-lg">
+              <img alt="Upload icon" class="w-6 h-6" src="/assets/assets/edit.svg">
+            </button>
+            <img alt="Profile picture" class="rounded-full w-36 h-36 object-cover border-3 border-slate-300"
+                 src="assets/images/default.jpg">
+          </div>
         </div>
-        <input [(ngModel)]="user.email"
-               type="email"
-               id="userEmail"
-               disabled aria-describedby="emailHelp"
-               placeholder="your email should be here"
-               class="text-[18px] py-0.5 font-medium bg-indigo-100/60 border-0 text-slate-800
+        <div class="text-center flex flex-col gap-2">
+          <div class="bg-purple-50 shadow-lg bg-opacity-60 text-center rounded-xl">
+            <span
+              class="text-heading2-semibold border-0 text-gray-900 px-12">{{user.firstName}} {{user.lastName}}</span>
+          </div>
+          <input [(ngModel)]="user.email"
+                 type="email"
+                 id="userEmail"
+                 disabled aria-describedby="emailHelp"
+                 placeholder="your email should be here"
+                 class="text-[18px] py-0.5 font-medium bg-indigo-100/60 border-0 text-slate-800
                       text-center rounded-xl cursor-not-allowed autofill:none"
-               value="{{user.email}}" [ngModelOptions]="{standalone:true}">
-        <small id="emailHelp" class="text-gray-200 text-muted">We'll never share your email with anyone else.</small>
+                 value="{{user.email}}" [ngModelOptions]="{standalone:true}">
+          <small id="emailHelp" class="text-gray-200 text-muted">We'll never share your email with anyone else.</small>
+        </div>
       </div>
 
     </div>
@@ -40,7 +54,7 @@
                  placeholder="Enter your last name"
                  value="{{user.lastName}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div *ngIf="isPatient()" class="w-full md:w-1/2 px-3 mb-4" >
+        <div *ngIf="isPatient()" class="w-full md:w-1/2 px-3 mb-4">
           <label for="userBirthDate" class="text-gray-700">Birth Date</label>
           <input type="date" [(ngModel)]="user.birthDate"
                  id="userBirthDate"
@@ -57,7 +71,7 @@
                  placeholder="Enter your phone number"
                  value="{{user.phoneNumber}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div *ngIf="isDoctor()" class="w-full md:w-1/2 px-3 mb-4" >
+        <div *ngIf="isDoctor()" class="w-full md:w-1/2 px-3 mb-4">
           <label for="userOfficeNumber" class="text-gray-700">Office Number</label>
           <input type="number" [(ngModel)]="user.officeNumber"
                  id="userOfficeNumber"

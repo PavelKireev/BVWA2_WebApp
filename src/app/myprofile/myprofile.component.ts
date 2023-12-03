@@ -1,5 +1,5 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Component, Output} from "@angular/core";
+import {Component, ElementRef, Output, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 
@@ -11,6 +11,8 @@ import {AuthService} from "../service/auth.service";
 export class MyProfileComponent {
 
   private readonly baseUrl: string = "api"
+
+  @ViewChild('imageInput', {static: false}) imageInput!: ElementRef;
 
   @Output()
   public user: AuthUserDto = new AuthUserDto();
@@ -73,6 +75,22 @@ export class MyProfileComponent {
           "Content-Type": "application/json"
         })
       }).subscribe(response => console.log(response));
+    }
+  }
+
+  changeImage() {
+    this.imageInput.nativeElement.click();
+  }
+
+  onImageChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files![0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imageElement: HTMLImageElement = document.querySelector('img[alt="Profile picture"]') as HTMLImageElement;
+        imageElement.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
