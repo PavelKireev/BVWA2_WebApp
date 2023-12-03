@@ -25,7 +25,7 @@ export class DoctorComponent {
   ) { }
 
   ngOnInit(): void {
-    this.getDoctor(this.actRoute.snapshot.params['email'])
+    this.getDoctor(this.actRoute.snapshot.params['uuid'])
       .subscribe(response => this.doctor = response);
   }
 
@@ -39,12 +39,12 @@ export class DoctorComponent {
     }
   }
 
-  private getDoctor(email: string): Observable<Doctor> {
-    return this.httpClient.get<Doctor>(this.baseUrl + "?email=" + email);
+  private getDoctor(uuid: string): Observable<Doctor> {
+    return this.httpClient.get<Doctor>(`api/doctor/${uuid}`);
   }
 
   public update(doctor: Doctor): void {
-    this.httpClient.post(this.baseUrl + "update", JSON.stringify(doctor), {
+    this.httpClient.post(`api/doctor/update`, JSON.stringify(doctor), {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })

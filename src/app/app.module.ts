@@ -28,6 +28,7 @@ import {HttpInterceptor} from "./service/http.interceptor";
 import {NotFoundComponent} from "./error-pages/not-found.component";
 import {LandingComponent} from "./landing/landing.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
+import {PasswordChangeComponent} from "./password-change/password-change.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -41,7 +42,8 @@ const routes: Routes = [
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'working-hours', component: WorkingHoursComponent },
   { path: 'create-user', component: CreateUserComponent },
-  { path: 'not-found', component: NotFoundComponent }
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'password-change', component: PasswordChangeComponent },
 ];
 
 export function tokenGetter() {
@@ -63,7 +65,8 @@ export function tokenGetter() {
     CreateUserComponent,
     NotFoundComponent,
     LandingComponent,
-    SidebarComponent
+    SidebarComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:5011"],
+        allowedDomains: ["localhost:8080"],
         disallowedRoutes: []
       }
     }),

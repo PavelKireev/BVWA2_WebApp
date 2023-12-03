@@ -42,7 +42,7 @@ export class LoginComponent {
           }
           //todo: add domain resolution
           this.invalidLogin = false;
-          this.router.navigateByUrl("list");
+          this.router.navigateByUrl("my-profile");
         },
         error: (error) => {
           this.invalidLogin = true;
