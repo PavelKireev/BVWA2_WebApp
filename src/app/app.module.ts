@@ -29,6 +29,7 @@ import {NotFoundComponent} from "./error-pages/not-found.component";
 import {LandingComponent} from "./landing/landing.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
 import {PasswordChangeComponent} from "./password-change/password-change.component";
+import {ChatComponent} from "./chat/chat.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -44,6 +45,7 @@ const routes: Routes = [
   { path: 'create-user', component: CreateUserComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'password-change', component: PasswordChangeComponent },
+  { path: 'chat', component: ChatComponent },
 ];
 
 export function tokenGetter() {
@@ -66,7 +68,8 @@ export function tokenGetter() {
     NotFoundComponent,
     LandingComponent,
     SidebarComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
