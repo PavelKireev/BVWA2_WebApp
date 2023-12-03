@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { JwtModule } from "@auth0/angular-jwt";
@@ -24,9 +24,11 @@ import { WorkingHoursComponent } from './working-hours/working-hours.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { WorkingHoursService } from './service/working-hours.service';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
-import {SidebarComponent} from "./sidebar/sidebar.component";
+import {HttpInterceptor} from "./service/http.interceptor";
+import {NotFoundComponent} from "./error-pages/not-found.component";
 import {LandingComponent} from "./landing/landing.component";
-import {NoAuthGuard} from "./guards/no-auth-guard.service";
+import {SidebarComponent} from "./sidebar/sidebar.component";
+import {PasswordChangeComponent} from "./password-change/password-change.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -39,11 +41,13 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'working-hours', component: WorkingHoursComponent },
-  { path: 'create-user', component: CreateUserComponent }
+  { path: 'create-user', component: CreateUserComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'password-change', component: PasswordChangeComponent },
 ];
 
 export function tokenGetter() {
-  return localStorage.getItem("jwt");
+  return sessionStorage.getItem("app.token");
 }
 
 @NgModule({
@@ -59,8 +63,10 @@ export function tokenGetter() {
     RegisterUserComponent,
     WorkingHoursComponent,
     CreateUserComponent,
+    NotFoundComponent,
+    LandingComponent,
     SidebarComponent,
-    LandingComponent
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +83,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:5011"],
+        allowedDomains: ["localhost:8080"],
         disallowedRoutes: []
       }
     }),
@@ -87,7 +93,15 @@ export function tokenGetter() {
     MatDatepickerModule,
     AuthService,
     WorkingHoursService,
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500 }}
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {duration: 2500 }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

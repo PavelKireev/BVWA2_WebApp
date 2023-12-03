@@ -1,22 +1,42 @@
 <div class="mx-auto px-6">
   <div class="bg-indigo-50 rounded-3xl md:py-4 xs:sm:md:lg:px-6 w-full mx-auto shadow-md">
     <!-- Nested User Card -->
-    <div class="flex flex-row items-center justify-center gap-4 sm:py-4 md:lg:py-8 mb-4 bg-white/70 rounded-3xl">
-
-      <div class="mt-6 text-center flex flex-col gap-2">
-        <div class="bg-purple-50 shadow-lg bg-opacity-60 text-center rounded-xl">
-          <span class="text-heading2-semibold border-0 text-gray-900 px-12">{{user.firstName}}{{user.lastName}}</span>
+    <div class="flex flex-col items-center justify-center gap-4 sm:py-4 md:lg:py-8 mb-4 bg-white/70 rounded-3xl">
+      <div class="flex flex-row items-center justify-center gap-4 py-8">
+        <div class="flex justify-center">
+          <div class="relative">
+            <input #imageInput type="file" (change)="onImageChange($event)" class="hidden">
+            <button (click)="imageInput.click()" class="absolute px-2 py-2 bg-violet-400 text-white rounded-lg">
+              <img alt="Upload icon" class="w-6 h-6" src="/assets/assets/edit.svg">
+            </button>
+            <img alt="Profile picture" class="rounded-full w-36 h-36 object-cover border-3 border-slate-300"
+                 src="assets/images/default.jpg">
+          </div>
         </div>
-        <input [(ngModel)]="user.email"
-               type="email"
-               id="userEmail"
-               disabled aria-describedby="emailHelp"
-               placeholder="your email should be here"
-               class="text-[18px] py-0.5 font-medium bg-indigo-100/60 border-0 text-slate-800 text-center rounded-xl cursor-not-allowed autofill:none"
-               value="{{user.email}}" [ngModelOptions]="{standalone:true}">
-        <small id="emailHelp" class="text-gray-200 text-muted">We'll never share your email with anyone else.</small>
-      </div>
+        <div class="text-center flex flex-col gap-2">
+          <div class="flex flex-row gap-2 justify-evenly ">
+            <div class="bg-purple-50 shadow-lg bg-opacity-60 text-center rounded-xl w-full">
+            <span
+              class="text-heading2-semibold border-0 text-gray-900 px-12">{{user.firstName}} {{user.lastName}}</span>
+            </div>
 
+              <button (click)="changePassword()" class="p-1 bg-violet-400 text-white rounded-lg">
+                <img alt="Profile picture" class="rounded-full !w-10 !h-8 object-cover border-3 border-slate-300"
+                     src="assets/assets/password.svg">
+              </button>
+
+          </div>
+          <input [(ngModel)]="user.email"
+                 type="email"
+                 id="userEmail"
+                 disabled aria-describedby="emailHelp"
+                 placeholder="your email should be here"
+                 class="text-[18px] py-0.5 font-medium bg-indigo-100/60 border-0 text-slate-800
+                      text-center rounded-xl cursor-not-allowed autofill:none"
+                 value="{{user.email}}" [ngModelOptions]="{standalone:true}">
+          <small id="emailHelp" class="text-gray-200 text-muted">We'll never share your email with anyone else.</small>
+        </div>
+      </div>
     </div>
     <!-- User Information Details -->
     <form class="px-6 py-3 bg-indigo-100 rounded-3xl">
@@ -25,7 +45,8 @@
           <label for="userFirstName" class="text-gray-700">First Name</label>
           <input type="text" [(ngModel)]="user.firstName"
                  id="userFirstName"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your first name"
                  value="{{user.firstName}}" [ngModelOptions]="{standalone:true}">
         </div>
@@ -33,43 +54,41 @@
           <label for="userLastName" class="text-gray-700">Last name</label>
           <input type="text" [(ngModel)]="user.lastName"
                  id="userLastName"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your last name"
                  value="{{user.lastName}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div class="w-full md:w-1/2 px-3 mb-4">
+        <div *ngIf="isPatient()" class="w-full md:w-1/2 px-3 mb-4">
           <label for="userBirthDate" class="text-gray-700">Birth Date</label>
           <input type="date" [(ngModel)]="user.birthDate"
                  id="userBirthDate"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  value="{{user.birthDate}}" [ngModelOptions]="{standalone:true}">
         </div>
         <div class="w-full md:w-1/2 px-3 mb-4">
           <label for="userPhoneNumber" class="text-gray-700">Phone Number</label>
           <input type="tel" [(ngModel)]="user.phoneNumber"
                  id="userPhoneNumber"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your phone number"
                  value="{{user.phoneNumber}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div class="w-full md:w-1/2 px-3 mb-4">
+        <div *ngIf="isDoctor()" class="w-full md:w-1/2 px-3 mb-4">
           <label for="userOfficeNumber" class="text-gray-700">Office Number</label>
           <input type="number" [(ngModel)]="user.officeNumber"
                  id="userOfficeNumber"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400
+                        focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
                  placeholder="Enter your office number"
                  value="{{user.officeNumber}}" [ngModelOptions]="{standalone:true}">
         </div>
-        <div class="w-full md:w-1/2 px-3 mb-4">
-          <label for="userInsuranceNumber" class="text-gray-700">Insurance Number</label>
-          <input type="number" [(ngModel)]="user.insuranceNumber"
-                 id="userInsuranceNumber"
-                 class="mt-1 p-2 w-full bg-gray-50 border-purple-200 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
-                 placeholder="Enter your office number"
-                 value="{{user.insuranceNumber}}" [ngModelOptions]="{standalone:true}">
-        </div>
-        <button (click)="update()"
-                class="text-white bg-purple-400/70 transition-colors ease-in-out hover:bg-purple-400 hover:border-purple-500/30 active:bg-purple-400/80 border-2 border-purple-300 w-full mx-3 text-[18px] font-semibold rounded-3xl py-1.5 shadow-md"
+        <button (click)="update(user)"
+                class="text-white bg-purple-400/70 transition-colors ease-in-out hover:bg-purple-400
+                       hover:border-purple-500/30 active:bg-purple-400/80 border-2 border-purple-300
+                       w-full mx-3 text-[18px] font-semibold rounded-3xl py-1.5 shadow-md"
                 type="submit">Submit
         </button>
       </div>

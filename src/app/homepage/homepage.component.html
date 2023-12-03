@@ -1,6 +1,6 @@
 <section class="container mx-auto px-4">
     <div *ngIf="tableList?.length ? 'flex justify-center' : 'flex justify-end'">
-        <div>
+        <div *ngIf="isAdmin()">
             <button type="button"
                     [routerLink]="['/create-user']"
                     class="flex justify-center items-center px-5 py-2 text-xl text-white font-semibold bg-violet-500
@@ -57,7 +57,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-x-6">
-                                    <button (click)="delete($event, user.email)"
+                                    <button (click)="delete($event, user.uuid, user.role)" *ngIf="isAdmin()"
                                             class="text-gray-400 transition-colors duration-200 hover:text-red-600
                                             active:text-red-800 focus:outline-none">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
@@ -68,7 +68,7 @@
                                                   stroke-linejoin="round"/>
                                         </svg>
                                     </button>
-                                    <button (click)="moreInfo($event, user.email, user.role)"
+                                    <button (click)="moreInfo($event, user.uuid, user.role)"
                                             class="text-gray-400 transition-colors duration-200 hover:text-amber-400 active:text-orange-500 focus:outline-none">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                              stroke-width="1.5"

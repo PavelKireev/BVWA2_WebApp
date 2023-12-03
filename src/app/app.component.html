@@ -1,7 +1,7 @@
 <body>
 <main class="flex flex-row ">
   <app-nav-menu></app-nav-menu>
-  <app-sidebar></app-sidebar>
+  <app-sidebar *ngIf="isUserAuthenticated"></app-sidebar>
   <section class="main-container">
     <div class="flex">
       <router-outlet></router-outlet>

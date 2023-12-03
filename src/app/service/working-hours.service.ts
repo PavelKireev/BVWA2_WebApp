@@ -10,8 +10,6 @@ import { AuthService } from './auth.service';
 })
 export class WorkingHoursService {
 
-  private readonly baseUrl: string = configurl.apiServer.url + "/api/working-hours/"
-
   constructor(
     private authService: AuthService,
     private httpClient: HttpClient,
@@ -19,19 +17,19 @@ export class WorkingHoursService {
 
   public saveWorkingHours(workingHours: WorkingHours, day: string): Observable<WorkingHours[]> {
     workingHours.dayOfWeek = day;
-    return this.httpClient.post<WorkingHours[]>(this.baseUrl + "create?doctorId=" + this.authService.getAuthUserId(), JSON.stringify(workingHours), {
+    return this.httpClient.post<WorkingHours[]>("api/working-hours/create?doctorUuid=" +
+                                                this.authService.getUserUuid(), JSON.stringify(workingHours), {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     }).pipe(shareReplay());
   }
 
-  public remove(id?: number): Observable<WorkingHours[]> {
-    return this.httpClient.delete<WorkingHours[]>(
-      configurl.apiServer.url + "/api/working-hours/delete?id=" + id + "&doctorId=" + this.authService.getAuthUserId()).pipe(shareReplay());
+  public remove(uuid?: string): Observable<WorkingHours[]> {
+    return this.httpClient.delete<WorkingHours[]>("api/working-hours/delete?uuid=" + uuid).pipe(shareReplay());
   }
 
-  public getAllByDoctorId(): Observable<WorkingHours[]> {
-    return this.httpClient.get<WorkingHours[]>(this.baseUrl + 'list?doctorId=' + this.authService.getAuthUserId());
+  public getAllByDoctorUuid(): Observable<WorkingHours[]> {
+    return this.httpClient.get<WorkingHours[]>('api/working-hours/list?doctorUuid=' + this.authService.getUserUuid());
   }
 }

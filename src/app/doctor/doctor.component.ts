@@ -25,12 +25,12 @@ export class DoctorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getDoctor(this.actRoute.snapshot.params['email'])
+    this.getDoctor(this.actRoute.snapshot.params['uuid'])
       .subscribe(response => this.doctor = response);
   }
 
   isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
+    const token = sessionStorage.getItem("app.token");
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return true;
     }
@@ -39,12 +39,12 @@ export class DoctorComponent implements OnInit {
     }
   }
 
-  private getDoctor(email: string): Observable<Doctor> {
-    return this.httpClient.get<Doctor>(this.baseUrl + "?email=" + email);
+  private getDoctor(uuid: string): Observable<Doctor> {
+    return this.httpClient.get<Doctor>(`api/doctor/${uuid}`);
   }
 
   public update(doctor: Doctor): void {
-    this.httpClient.post(this.baseUrl + "update", JSON.stringify(doctor), {
+    this.httpClient.post(`api/doctor/update`, JSON.stringify(doctor), {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
@@ -59,7 +59,7 @@ export class DoctorComponent implements OnInit {
 }
 
 export class Doctor {
-  id?: number;
+  uuid: string = "";
   firstName?: string;
   lastName?: string;
   email?: string;

@@ -1,11 +1,7 @@
 import {Component, OnInit, Output} from "@angular/core";
-import {MatSelect} from "@angular/material/select";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {JwtHelperService} from "@auth0/angular-jwt";
-import configurl from "../../assets/config/config.json";
-import {User} from "../homepage/homepage.component";
 import {Patient} from "../patient/patient.component";
-import {map, mergeMap, of} from "rxjs";
+import {mergeMap, of} from "rxjs";
 import {Doctor} from "../doctor/doctor.component";
 import {AuthService} from "../service/auth.service";
 
@@ -18,9 +14,9 @@ export class AppointmentComponent implements OnInit {
     title = 'Zdravotni System App';
 
     @Output()
-    doctorList?: (string | undefined)[];
+    doctorList?: Doctor[];
     @Output()
-    patientList?: (string | undefined)[];
+    patientList?: Patient[];
     @Output()
     dateTimeList?: (string | undefined)[];
     @Output()
@@ -29,57 +25,71 @@ export class AppointmentComponent implements OnInit {
     constructor(
         private httpClient: HttpClient,
         private authService: AuthService,
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.fillTable();
-        this.httpClient.get<Patient[]>(configurl.apiServer.url + "/api/patient/list")
-            .pipe(
-                mergeMap( (patients: Patient[]) => {
-                    this.patientList = patients.map(patient => patient.email);
-                    return this.httpClient.get<Doctor[]>(configurl.apiServer.url + "/api/doctor/list")
-                }),
-                mergeMap((doctors: Doctor[]) =>
-                    this.doctorList = doctors.map((doctor => doctor.email)))
-            ).subscribe();
+        this.httpClient.get<Patient[]>("api/patient/list")
+                       .pipe(
+                         mergeMap((patients: Patient[]) => {
+                           this.patientList = patients;
+                           return this.httpClient.get<Doctor[]>("api/doctor/list")
+                         }),
+                         mergeMap((doctors: Doctor[]) => {
+                             this.doctorList = doctors;
+                              return of(doctors);
+                           }
+                         )).subscribe();
     }
 
-    update(dateTime: string, doctorEmail: string, patientEmail: string) {
-        const data: AppointmentModel = {
-            patientEmail: patientEmail,
-            doctorEmail: doctorEmail,
-            dateTime: dateTime
+    update(dateTime: string, doctorUuid: string, patientUuid: string) {
+      let dateTimeParts = dateTime.split(' ');
+      let dateParts = dateTimeParts[0].split('-');
+      let timeParts = dateTimeParts[1].split(':');
+      let date = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1,
+                                parseInt(dateParts[2]), parseInt(timeParts[0]), parseInt(timeParts[1]));
+      const data: AppointmentModel = {
+        patientUuid: patientUuid,
+        doctorUuid: doctorUuid,
+        time: date
+      }
+      this.httpClient.post("api/appointment/create",
+        JSON.stringify(data),
+        {
+          headers: new HttpHeaders({
+            "Content-Type": "application/json"
+          })
         }
-        this.httpClient.post(
-            configurl.apiServer.url + "/api/appointment/create",
-            JSON.stringify(data),
-            {
-                headers: new HttpHeaders({
-                    "Content-Type": "application/json"
-                })
-            }
-        ).pipe(
-            mergeMap(
-                () => {
-                    this.fillTable();
-                    return this.httpClient.get<string[]>(
-                        configurl.apiServer.url + "/api/working-hours/available?doctorEmail=" + doctorEmail)
-                }),
-            mergeMap((value) => this.dateTimeList = value)
-        ).subscribe();
+      ).pipe(
+        mergeMap(
+          () => {
+            this.fillTable();
+            return this.httpClient.get<string[]>("appointments/available?doctorUuid=" + doctorUuid)
+          }),
+        mergeMap((value) => this.dateTimeList = value)
+      ).subscribe();
     }
 
     fillTable(): void {
         this.appointmentTable = [];
-        this.httpClient.get<AppointmentDto[]>(configurl.apiServer.url + "/api/appointment/list").subscribe(
-            (appointments: AppointmentDto[]) => { this.appointmentTable = appointments; }
-        );
-        console.log(this.appointmentTable?.toString());
+
+        if (this.authService.isPatient()) {
+            this.httpClient.get<AppointmentDto[]>("api/appointment/patient?patientUuid=" + this.authService.getUserUuid())
+                           .subscribe((appointments: AppointmentDto[]) => {
+                               this.appointmentTable = appointments;
+                           });
+        } else if (this.authService.isDoctor() || this.authService.isAdmin()) {
+            this.httpClient.get<AppointmentDto[]>("api/appointment/list").subscribe(
+                (appointments: AppointmentDto[]) => {
+                    this.appointmentTable = appointments;
+                });
+        }
     }
 
     onDoctorChange($event: any) {
-        this.httpClient.get<string[]>(configurl.apiServer.url + "/api/working-hours/available?doctorEmail=" + $event.value)
-            .subscribe({ next: value => this.dateTimeList = value });
+        this.httpClient.get<string[]>("appointments/available?doctorUuid=" + $event.target.value)
+                       .subscribe({next: value => this.dateTimeList = value});
     }
 
     isUserAuthenticated(): boolean {
@@ -94,8 +104,8 @@ export class AppointmentComponent implements OnInit {
         return this.authService.isDoctor();
     }
 
-    delete($event: any, id: number) {
-        this.httpClient.delete(configurl.apiServer.url + "/api/appointment/delete?id=" + id).subscribe({
+    delete($event: any, uuid: string) {
+        this.httpClient.delete("api/appointment/delete?uuid=" + uuid).subscribe({
                 next: _ => this.fillTable()
             }
         );
@@ -103,14 +113,16 @@ export class AppointmentComponent implements OnInit {
 }
 
 interface AppointmentModel {
-    doctorEmail: string;
-    patientEmail: string;
-    dateTime: string;
+    doctorUuid: string;
+    patientUuid: string;
+    time: Date;
 }
 
 interface AppointmentDto {
-    id: number;
-    doctorEmail: string;
-    patientEmail: string;
-    dateTime: string;
+    uuid: string;
+    doctorName: string;
+    doctorUuid: string;
+    patientName: string;
+    patientUuid: string;
+    time: string;
 }

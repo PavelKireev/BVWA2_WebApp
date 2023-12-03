@@ -21,13 +21,13 @@
             Sign in to Norman.zs
           </h2>
           <div *ngIf="invalidLogin" class="alert alert-danger">Wasn't your password or email?</div>
-          <form action="#" class="space-y-6">
+          <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="space-y-6">
             <div>
-              <label for="username"
+              <label for="email"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
               <input type="email"
-                     id="username"
-                     name="username"
+                     id="email"
+                     name="email"
                      placeholder="username@email.com"
                      ngModel
                      autofocus
@@ -45,8 +45,9 @@
                      placeholder="••••••••"
                      class="form-input-store border-indigo-400 border-2" required>
             </div>
-            <button
-                    class="flex flex-row ease-in-out text-white text-base-regular bg-indigo-400 hover:bg-indigo-400/70 border-2 border-indigo-400/30 hover:border-indigo-400/50 active:bg-indigo-400/60 rounded-full px-6 py-1 max-md:hidden shadow-md"
+            <button class="flex flex-row ease-in-out text-white text-base-regular bg-indigo-400
+                           hover:bg-indigo-400/70 border-2 border-indigo-400/30 hover:border-indigo-400/50
+                           active:bg-indigo-400/60 rounded-full px-6 py-1 max-md:hidden shadow-md"
                     type="submit">
               Sign in
             </button>

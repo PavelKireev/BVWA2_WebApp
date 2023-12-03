@@ -8,6 +8,7 @@
             class="font-medium text-gray-800 placeholder-gray-600 bg-indigo-100/90 ring-2 border-0 ring-indigo-200 rounded-2xl p-2.5 mt-1.5 text-sm w-full py-2.5 justify-center"
             id="roleSelector"
             name="roleSelector"
+            [(ngModel)]="user.role"
             required>
       <option value="" disabled selected>Select role</option>
       <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
@@ -74,28 +75,10 @@
         Phone number is required.
       </div>
     </div>
-    <div class="">
+    <div *ngIf="user.role === 'DOCTOR'">
       <label
-        [class]="insuranceNumber.invalid && insuranceNumber.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
-        for="userInsuranceNumber">Insurance number</label>
-      <input type="number"
-             id="userInsuranceNumber"
-             [(ngModel)]="user.insuranceNumber"
-             name="userInsuranceNumber"
-             placeholder="e.g. 333"
-             [ngModelOptions]="{standalone:true}"
-             value="{{user.insuranceNumber}}"
-             [class]="insuranceNumber.invalid && insuranceNumber.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
-             #insuranceNumber="ngModel"
-             required>
-      <div *ngIf="insuranceNumber.invalid && insuranceNumber.touched"
-           class="mt-2 text-sm text-red-600 dark:text-red-500">
-        Insurance number is required.
-      </div>
-    </div>
-    <div class="">
-      <label
-        [class]="officeNumber.invalid && officeNumber.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        [class]="officeNumber.invalid && officeNumber.touched ? 'block mb-2 text-sm font-medium text-red-600'
+                                                              : 'block mb-2 text-sm font-medium text-gray-700'"
         for="userOfficeNumber">Office number</label>
       <input type="number"
              id="userOfficeNumber"
@@ -104,7 +87,8 @@
              placeholder="e.g. 3153"
              [ngModelOptions]="{standalone:true}"
              value="{{user.officeNumber}}"
-             [class]="officeNumber.invalid && officeNumber.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             [class]="officeNumber.invalid && officeNumber.touched ? 'form-input-store text-sm border-2 border-red-600'
+                                                                   : 'form-input-store text-sm border-2 border-indigo-400'"
              #officeNumber="ngModel"
              required>
       <div *ngIf="officeNumber.invalid && officeNumber.touched"
@@ -112,9 +96,10 @@
         Office number is required.
       </div>
     </div>
-    <div class="">
+    <div *ngIf="user.role === 'PATIENT'">
       <label
-        [class]="birthDate.invalid && birthDate.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+        [class]="birthDate.invalid && birthDate.touched ? 'block mb-2 text-sm font-medium text-red-600'
+                                                        : 'block mb-2 text-sm font-medium text-gray-700'"
         for="userBirthDate">Birth date</label>
       <input type="date"
              id="userBirthDate"
@@ -123,7 +108,8 @@
              placeholder="e.g. 12/01/01"
              [ngModelOptions]="{standalone:true}"
              value="{{user.birthDate}}"
-             [class]="birthDate.invalid && birthDate.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             [class]="birthDate.invalid && birthDate.touched ? 'form-input-store text-sm border-2 border-red-600'
+                                                             : 'form-input-store text-sm border-2 border-indigo-400'"
              #birthDate="ngModel"
              required>
       <div *ngIf="birthDate.invalid && birthDate.touched"
@@ -134,7 +120,8 @@
   </div>
   <div>
     <label
-      [class]="email.invalid && email.touched ? 'block mb-2 text-sm font-medium text-red-600' : 'block mb-2 text-sm font-medium text-gray-700'"
+      [class]="email.invalid && email.touched ? 'block mb-2 text-sm font-medium text-red-600'
+                                              : 'block mb-2 text-sm font-medium text-gray-700'"
       for="email">Email</label>
     <input type="email"
            id="email"
@@ -144,7 +131,8 @@
            placeholder="e.g. user@example.com"
            [ngModelOptions]="{standalone:true}"
            value="{{user.email}}"
-           [class]="email.invalid && email.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+           [class]="email.invalid && email.touched ? 'form-input-store text-sm border-2 border-red-600'
+                                                   : 'form-input-store text-sm border-2 border-indigo-400'"
            #email="ngModel"
            required>
     <div *ngIf="email.invalid && email.touched"
@@ -163,11 +151,14 @@
              id="password"
              formControlName="password"
              placeholder="••••••••"
-             [class]="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             [class]="passwordForm.get('password')?.invalid &&
+              passwordForm.get('password')?.touched ? 'form-input-store text-sm border-2 border-red-600'
+                                                    : 'form-input-store text-sm border-2 border-indigo-400'"
              required>
       <div *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched"
            class="mt-2 text-sm text-red-600 dark:text-red-500">
-        <span *ngIf="validateControl('password') && hasError('password', 'required')">Password is required.</span>
+        <span *ngIf="validateControl('password') &&
+        hasError('password', 'required')">Password is required.</span>
       </div>
     </div>
     <div>
@@ -180,7 +171,9 @@
              id="confirm"
              formControlName="confirm"
              placeholder="••••••••"
-             [class]="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched ? 'form-input-store text-sm border-2 border-red-600' : 'form-input-store text-sm border-2 border-indigo-400'"
+             [class]="passwordForm.get('confirm')?.invalid &&
+              passwordForm.get('confirm')?.touched ? 'form-input-store text-sm border-2 border-red-600'
+                                                   : 'form-input-store text-sm border-2 border-indigo-400'"
              required>
       <div *ngIf="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched"
            class="mt-2 text-sm text-red-600 dark:text-red-500">

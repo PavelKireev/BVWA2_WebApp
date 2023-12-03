@@ -22,21 +22,25 @@ export class CreateUserComponent {
   passwordForm!: FormGroup;
   @Output() roles: Role[] = [{value: 'DOCTOR', viewValue: 'Doctor'}, {value: 'PATIENT', viewValue: 'Patient'}];
 
-  constructor(private authService: AuthService, private jwtHelper: JwtHelperService, private httpClient: HttpClient, private passConfValidator: PasswordConfirmationValidatorService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService,
+              private jwtHelper: JwtHelperService,
+              private httpClient: HttpClient,
+              private passConfValidator: PasswordConfirmationValidatorService,
+              private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
-    const passwordPattern = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
-
     this.passwordForm = new FormGroup({
-      password: new FormControl('', [Validators.required, Validators.pattern(passwordPattern)]),
+      password: new FormControl('', [Validators.required]),
       confirm: new FormControl('')
     });
-    this.passwordForm.get('confirm')?.setValidators([Validators.required, this.passConfValidator.validateConfirmPassword(this.passwordForm?.get('password'))]);
+    this.passwordForm.get('confirm')?.setValidators([
+        Validators.required, this.passConfValidator.validateConfirmPassword(this.passwordForm?.get('password'))]);
   }
 
   isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
+    const token = sessionStorage.getItem("app.token");
     return !!(token && !this.jwtHelper.isTokenExpired(token));
   }
 
@@ -56,7 +60,7 @@ export class CreateUserComponent {
     const formValues = {...passwordFormValue};
     user.password = formValues.password;
     user.role = role;
-    this.httpClient.post(this.baseUrl + "create", JSON.stringify(user), {
+    this.httpClient.post(`api/${role.toLowerCase()}/create`, JSON.stringify(user), {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })

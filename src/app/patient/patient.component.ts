@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable } from "rxjs";
 import configurl from '../../assets/config/config.json';
+import { AuthService } from "../service/auth.service";
 
 @Component({
   selector: 'patient-component',
@@ -21,45 +22,42 @@ export class PatientComponent {
     private jwtHelper: JwtHelperService,
     private httpClient: HttpClient,
     private actRoute: ActivatedRoute,
+    private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.getPatient(this.actRoute.snapshot.params['email'])
-      .subscribe(response => this.patient = response);
+    this.getPatient(this.actRoute.snapshot.params['uuid'])
+        .subscribe(response => this.patient = response);
   }
 
   isUserAuthenticated(): boolean {
-    const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.authService.isUserAuthenticated();
   }
 
-  private getPatient(email: string): Observable<Patient> {
-    return this.httpClient.get<Patient>(this.baseUrl + "?email=" + email);
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  idDoctor(): boolean {
+    return this.authService.isDoctor();
+  }
+
+  private getPatient(uuid: string): Observable<Patient> {
+    return this.httpClient.get<Patient>(`api/patient/${uuid}`);
   }
 
   public update(patient: Patient): void {
-    this.httpClient.post(this.baseUrl + "update", JSON.stringify(patient), {
+    this.httpClient.post(`api/patient/update`, JSON.stringify(patient), {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
-    }).subscribe({
-      next: (_) => this.router.navigate(["homepage"]),
-      //error: (err: HttpErrorResponse) => {
-      //  this.errorMessage = err.message;
-      //  this.showError = true;
-      //}
-    });
+    }).subscribe();
   }
 }
 
 export class Patient {
-  id?: number;
+  uuid?: string = "";
   firstName?: string;
   lastName?: string;
   email?: string;
