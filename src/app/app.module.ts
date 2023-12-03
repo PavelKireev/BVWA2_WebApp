@@ -30,6 +30,7 @@ import {LandingComponent} from "./landing/landing.component";
 import {SidebarComponent} from "./sidebar/sidebar.component";
 import {PasswordChangeComponent} from "./password-change/password-change.component";
 import {ChatComponent} from "./chat/chat.component";
+import {NotificationComponent} from "./notification/notification.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -69,7 +70,8 @@ export function tokenGetter() {
     LandingComponent,
     SidebarComponent,
     PasswordChangeComponent,
-    ChatComponent
+    ChatComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
