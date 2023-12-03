@@ -31,6 +31,7 @@ import {SidebarComponent} from "./sidebar/sidebar.component";
 import {PasswordChangeComponent} from "./password-change/password-change.component";
 import {ChatComponent} from "./chat/chat.component";
 import {NotificationComponent} from "./notification/notification.component";
+import {DiscussionComponent} from "./chat/discussion/discussion.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -47,6 +48,8 @@ const routes: Routes = [
   { path: 'not-found', component: NotFoundComponent },
   { path: 'password-change', component: PasswordChangeComponent },
   { path: 'chat', component: ChatComponent },
+  { path: 'discussion', component: DiscussionComponent },
+  { path: '**', redirectTo: '/not-found' }
 ];
 
 export function tokenGetter() {
@@ -71,7 +74,8 @@ export function tokenGetter() {
     SidebarComponent,
     PasswordChangeComponent,
     ChatComponent,
-    NotificationComponent
+    NotificationComponent,
+    DiscussionComponent
   ],
   imports: [
     BrowserModule,
