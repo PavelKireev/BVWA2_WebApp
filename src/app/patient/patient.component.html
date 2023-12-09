@@ -78,7 +78,7 @@
               </div>
               <div class="w-full md:w-1/2 px-3 mb-4">
                 <label for="patientPhoneNumber" class="text-gray-700">Phone Number</label>
-                <input type="text" [(ngModel)]="patient.phoneNumber"
+                <input type="tel" [(ngModel)]="patient.phoneNumber"
                        id="patientPhoneNumber"
                        #patientPhoneNumber="ngModel"
                        [ngClass]="{'border-4 border-red-300 bg-red-100 text-red-300': patientPhoneNumber.touched && !patientPhoneNumber.valid ,
