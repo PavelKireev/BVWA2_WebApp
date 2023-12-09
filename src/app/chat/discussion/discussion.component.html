@@ -3,7 +3,8 @@
     <form class="mb-6 flex flex-column w-full gap-3" [formGroup]="saleForm">
       <div class="flex flex-row justify-between sm:flex-col items-center">
         <h3 class="font-semibold text-gray-700">Outbox</h3>
-        <div class="w-fit">
+        <div class="w-fit flex flex-row items-center gap-2">
+          <h3 class="font-medium text-gray-700">to: </h3>
           <select class="bg-violet-50 text-gray-900 placeholder-gray-700 focus:ring-2 focus:ring-fuchsia-400 focus:border-none rounded-2xl block w-full pl-2.5 pr-7 py-1.5 t-1.5 text-sm border-2 border-violet-300"
                   formControlName="selectedUser" required>
             <option disabled selected value="">Select user...</option>
