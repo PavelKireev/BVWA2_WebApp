@@ -31,6 +31,9 @@ export class SidebarComponent implements OnInit {
           this.sidebarLinks = [
               {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
+              {route: '/inbox', imgURL: '/assets/assets/unread.svg', name: 'Inbox'},
+              {route: '/inbox', imgURL: '/assets/assets/letter.svg', name: 'Doctors'},
+              {route: '/outbox', imgURL: '/assets/assets/pen.svg', name: 'Outbox'}
           ];
       }
     }
