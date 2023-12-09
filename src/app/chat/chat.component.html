@@ -1,6 +1,7 @@
-<div class="w-full">
+<div *ngIf="inboxItems.length" class="w-full">
   <div class="mx-auto" style="max-width: 65.8rem; width: 100%;">
     <ul class="w-full flex flex-col justify-center gap-2">
+      <h3 class="font-semibold text-gray-700">Inbox messages</h3>
       <li class=" bg-slate-50 rounded-lg shadow-sm" *ngFor="let item of inboxItems; let i = index">
         <div class="flex p-2 justify-between items-center bg-slate-200 rounded-t-lg">
           <div class="flex flex-row justify-center items-start gap-1">
@@ -35,8 +36,11 @@
           </div>
         </div>
         <div class="flex justify-between items-center p-1">
-          <button class="w-fit rounded-3xl bg-blue px-3 py-0.5 flex items-center justify-center">
-            <span class="text-base-regular font-semibold text-white">
+          <button [routerLink]="['/outbox']"
+                  class="w-fit ease-in-out text-indigo-500 transition-colors text-base-medium font-semibold
+                  bg-indigo-100/90 hover:bg-indigo-200/50 border-2 border-indigo-200/30
+                  hover:border-indigo-200/50 active:bg-indigo-200/60 rounded-3xl px-3 py-1 gap-2 shadow-sm">
+            <span class="text-base-semibold">
               Reply
             </span>
           </button>
@@ -53,9 +57,16 @@
 <div *ngIf="!inboxItems.length">
   <div *ngIf="showMsg">
     <div class="flex justify-center items-center h-[80vh]">
-      <div class="flex flex-col items-center gap-y-3">
+      <div *ngIf="!inboxItems.length" class="flex flex-col items-center gap-y-3">
         <img class="w-2/12" src="assets/assets/sleeping.svg" alt="empty">
-        <h2 *ngIf="!inboxItems.length" class="text-heading1-semibold text-gray-700">Inbox messages are empty...</h2>
+        <h2 class="text-heading1-semibold text-gray-700">Inbox messages are empty...</h2>
+        <button [routerLink]="['/outbox']"
+                class="w-1/4 rounded-3xl bg-blue px-3 py-2 flex items-center justify-center border-2 border-sky-500
+                hover:bg-blue/90 active:bg-sky-400 transition-colors ease-in-out shadow-sm">
+            <span class="text-heading4-medium font-semibold text-white">
+              Text a message...
+            </span>
+        </button>
       </div>
     </div>
   </div>

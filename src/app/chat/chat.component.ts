@@ -11,13 +11,13 @@ export class ChatComponent implements OnInit {
   showMessage: boolean = false;
 
   inboxItems: InboxItem[] = [
-    // { sender: 'Sender 1', body: 'This is the body of the second message. This is the body of the second message. ' +
-    //     'This is the body of the second message. This is the body of the second message. ' +
-    //     'This is the body of the second message. This is the body of the second message.', isExpanded: false , date: new Date()},
-    // { sender: 'Sender 2', body: 'This is the body of the second message.', isExpanded: false , date: new Date()},
-    // { sender: 'Sender 3', body: 'This is the body of the second message.', isExpanded: false , date: new Date()},
-    //
-    // // ... more items
+    { sender: 'Sender 1', body: 'This is the body of the second message. This is the body of the second message. ' +
+        'This is the body of the second message. This is the body of the second message. ' +
+        'This is the body of the second message. This is the body of the second message.', isExpanded: false , date: new Date()},
+    { sender: 'Sender 2', body: 'This is the body of the second message.', isExpanded: false , date: new Date()},
+    { sender: 'Sender 3', body: 'This is the body of the second message.', isExpanded: false , date: new Date()},
+
+    // ... more items
   ];
 
   constructor() {

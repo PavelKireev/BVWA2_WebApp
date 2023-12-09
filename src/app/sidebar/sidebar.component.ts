@@ -18,21 +18,27 @@ export class SidebarComponent implements OnInit {
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
               {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
               {route: '/list/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors'},
-              {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'}
+              {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'},
+              {route: '/inbox', imgURL: '/assets/assets/unread.svg', name: 'Inbox'},
+              {route: '/inbox', imgURL: '/assets/assets/letter.svg', name: 'Inbox'},
+              {route: '/outbox', imgURL: '/assets/assets/pen.svg', name: 'Outbox'}
           ];
       } else if (authService.isDoctor()) {
           this.sidebarLinks = [
               {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
               {route: '/working-hours', imgURL: '/assets/assets/timer.svg', name: 'Working Hours'},
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
-              {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'}
+              {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'},
+              {route: '/inbox', imgURL: '/assets/assets/unread.svg', name: 'Inbox'},
+              {route: '/inbox', imgURL: '/assets/assets/letter.svg', name: 'Inbox'},
+              {route: '/outbox', imgURL: '/assets/assets/pen.svg', name: 'Outbox'}
           ];
       } else {
           this.sidebarLinks = [
               {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
               {route: '/appointment', imgURL: '/assets/assets/calendar.svg', name: 'Appointments'},
               {route: '/inbox', imgURL: '/assets/assets/unread.svg', name: 'Inbox'},
-              {route: '/inbox', imgURL: '/assets/assets/letter.svg', name: 'Doctors'},
+              {route: '/inbox', imgURL: '/assets/assets/letter.svg', name: 'Inbox'},
               {route: '/outbox', imgURL: '/assets/assets/pen.svg', name: 'Outbox'}
           ];
       }
