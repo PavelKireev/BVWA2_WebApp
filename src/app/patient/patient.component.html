@@ -1,33 +1,127 @@
-<div>
-  <h2>{{patient.firstName}} {{patient.lastName}}</h2>
-  <form>
-    <div class="form-group mt-2">
-      <label for="patientEmail">Email address</label>
-      <input type="email" [(ngModel)]="patient.email" class="form-control"
-             id="patientEmail" disabled aria-describedby="emailHelp" placeholder="Enter email"
-             value="{{patient.email}}" [ngModelOptions]="{standalone:true}" [disabled]="!isAdmin()">
+<!--<div>-->
+<!--  <h2>{{patient.firstName}} {{patient.lastName}}</h2>-->
+<!--  <form>-->
+<!--    <div class="form-group mt-2">-->
+<!--      <label for="patientEmail">Email address</label>-->
+<!--      <input type="email" [(ngModel)]="patient.email" class="form-control"-->
+<!--             id="patientEmail" disabled aria-describedby="emailHelp" placeholder="Enter email"-->
+<!--             value="{{patient.email}}" [ngModelOptions]="{standalone:true}" [disabled]="!isAdmin()">-->
+<!--    </div>-->
+<!--    <div class="form-group mt-2">-->
+<!--      <label for="patientLastName">Last Name</label>-->
+<!--      <input type="text" [(ngModel)]="patient.lastName" [disabled]="!isAdmin()" class="form-control"-->
+<!--             id="patientLastName" placeholder="Enter last name" value="{{patient.lastName}}" [ngModelOptions]="{standalone:true}">-->
+<!--    </div>-->
+<!--    <div class="form-group mt-2">-->
+<!--      <label for="patientPhoneNumber">Phone Number</label>-->
+<!--      <input type="text" [(ngModel)]="patient.phoneNumber" [disabled]="!isAdmin()" class="form-control"-->
+<!--             id="patientPhoneNumber" placeholder="Enter phone number" value="{{patient.phoneNumber}}" [ngModelOptions]="{standalone:true}">-->
+<!--    </div>-->
+<!--    <div class="mt-2">-->
+<!--      <input matInput [matDatepicker]="picker" [disabled]="!isAdmin()" [(ngModel)]="patient.birthDate" [ngModelOptions]="{standalone:true}">-->
+<!--      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--      <mat-datepicker #picker></mat-datepicker>-->
+<!--    </div>-->
+<!--    <button type="submit" (click)="update(patient)" class="btn btn-primary mt-3">Submit</button>-->
+<!--  </form>-->
+<!--</div>-->
+<div class="mt-8">
+
+  <div class="relative bg-gray-100 rounded-3xl overflow-hidden shadow-md">
+
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('/assets/images/sign-up.png'); filter: blur(3px);"></div>
+
+    <div class="absolute inset-0 bg-slate-900 opacity-50"></div>
+
+    <div class="py-3 px-3 mx-auto max-w-screen-xl grid lg:grid-cols-2 gap-4 lg:gap-16 relative">
+      <div
+        class="flex flex-col justify-center align-middle text-center text-slate-800 bg-white/30 rounded-3xl py-3 px-2.5">
+        <h1 class="text-heading1-semibold font-extrabold tracking-tight leading-none z-2 md:text-5xl lg:text-6xl mb-4">
+          {{patient.firstName}}
+        </h1>
+        <h1 class="text-heading1-semibold font-extrabold tracking-tight leading-none z-2 md:text-5xl lg:text-6xl mb-4">
+          {{patient.lastName}}
+        </h1>
+        <h2
+          class="bg-violet-700/50 text-white/80 rounded-3xl mx-auto p-2 text-heading2-semibold font-extrabold tracking-tight leading-none z-2 md:text-5xl lg:text-6xl mb-4">
+          {{patient.email}}
+        </h2>
+      </div>
+      <div>
+        <div class="lg:max-w-xl px-6 py-4 sm:p-8 rounded-3xl shadow-xl bg-indigo-100">
+          <form class="space-y-3" #doctorForm="ngForm" novalidate>
+            <div class="flex flex-wrap -mx-3">
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label for="patientFirstName" class="text-gray-700">First Name</label>
+                <input type="text" [(ngModel)]="patient.firstName"
+                       id="patientFirstName"
+                       #patientFirstName="ngModel"
+                       [ngClass]="{'border-4 border-red-300 bg-red-100 text-red-300': patientFirstName.touched && !patientFirstName.valid ,
+                     'border-2 border-green-500 bg-green-100' : !(!patientFirstName.valid)}"
+                       required
+                       class="mt-1 p-2 w-full bg-gray-50 border-violet-400 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                       placeholder="Enter first name"
+                       value="{{patient.firstName}}" [ngModelOptions]="{standalone:true}">
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label for="patientLastName" class="text-gray-700">Last Name</label>
+                <input type="text" [(ngModel)]="patient.lastName"
+                       id="patientLastName"
+                       #patientLastName="ngModel"
+                       [ngClass]="{'border-4 border-red-300 bg-red-100 text-red-300': patientLastName.touched && !patientLastName.valid ,
+                     'border-2 border-green-500 bg-green-100' : !(!patientLastName.valid)}"
+                       required
+                       class="mt-1 p-2 w-full bg-gray-50 border-violet-400 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                       placeholder="Enter last name"
+                       value="{{patient.lastName}}" [ngModelOptions]="{standalone:true}">
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label for="patientPhoneNumber" class="text-gray-700">Phone Number</label>
+                <input type="text" [(ngModel)]="patient.phoneNumber"
+                       id="patientPhoneNumber"
+                       #patientPhoneNumber="ngModel"
+                       [ngClass]="{'border-4 border-red-300 bg-red-100 text-red-300': patientPhoneNumber.touched && !patientPhoneNumber.valid ,
+                     'border-2 border-green-500 bg-green-100' : !(!patientPhoneNumber.valid)}"
+                       required
+                       class="mt-1 p-2 w-full bg-gray-50 border-violet-400 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                       placeholder="Enter phone number"
+                       value="{{patient.phoneNumber}}" [ngModelOptions]="{standalone:true}">
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label for="patientBirthDate" class="text-gray-700">Birth Date</label>
+                <input type="date" [(ngModel)]="patient.birthDate"
+                       id="patientBirthDate"
+                       #patientBirthDate="ngModel"
+                       [ngClass]="{'border-4 border-red-300 bg-red-100 text-red-300': patientBirthDate.touched && !patientBirthDate.valid ,
+                     'border-2 border-green-500 bg-green-100' : !(!patientBirthDate.valid)}"
+                       required
+                       class="mt-1 p-2 w-full bg-gray-50 border-violet-400 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                       placeholder="Enter birth date"
+                       value="{{patient.birthDate}}" [ngModelOptions]="{standalone:true}">
+              </div>
+              <div class="w-full md:w-1/2 px-3 mb-4">
+                <label for="patientEmail" class="text-gray-700">Email</label>
+                <input type="email" [(ngModel)]="patient.email"
+                       class="text-muted mt-1 p-2 w-full bg-gray-200 border-violet-400 text-gray-700 placeholder-gray-400 focus:ring-pink-200 focus:ring-2 focus:border-none text-sm rounded-xl"
+                       id="patientEmail"
+                       required
+                       [disabled]="patient.email != null"
+                       placeholder="Enter email"
+                       value="{{patient.email}}" [ngModelOptions]="{standalone:true}">
+              </div>
+
+              <button
+                (click)="update(patient)"
+                class="disabled:bg-red-200 disabled:text-red-500 disabled:border-red-400 text-white bg-purple-400/70 transition-colors ease-in-out hover:bg-purple-400 hover:border-purple-500/30 active:bg-purple-400/80 border-2 border-purple-300 w-full mx-3 text-[18px] font-semibold rounded-3xl py-1.5 shadow-md"
+                type="submit"
+                [disabled]="!doctorForm.valid"
+              >Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="form-group mt-2">
-      <label for="patientFirstName">First Name</label>
-      <input type="text" [(ngModel)]="patient.firstName"
-             class="form-control" id="patientFirstName" [disabled]="!isAdmin()"
-             placeholder="Enter first name" value="{{patient.firstName}}" [ngModelOptions]="{standalone:true}">
-    </div>
-    <div class="form-group mt-2">
-      <label for="patientLastName">Last Name</label>
-      <input type="text" [(ngModel)]="patient.lastName" [disabled]="!isAdmin()" class="form-control"
-             id="patientLastName" placeholder="Enter last name" value="{{patient.lastName}}" [ngModelOptions]="{standalone:true}">
-    </div>
-    <div class="form-group mt-2">
-      <label for="patientPhoneNumber">Phone Number</label>
-      <input type="text" [(ngModel)]="patient.phoneNumber" [disabled]="!isAdmin()" class="form-control"
-             id="patientPhoneNumber" placeholder="Enter phone number" value="{{patient.phoneNumber}}" [ngModelOptions]="{standalone:true}">
-    </div>
-    <div class="mt-2">
-      <input matInput [matDatepicker]="picker" [disabled]="!isAdmin()" [(ngModel)]="patient.birthDate" [ngModelOptions]="{standalone:true}">
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </div>
-    <button type="submit" (click)="update(patient)" class="btn btn-primary mt-3">Submit</button>
-  </form>
+  </div>
 </div>
