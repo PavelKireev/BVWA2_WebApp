@@ -4,7 +4,7 @@
     <p class='text-heading2-bold text-dark-1 max-xs:hidden'>norman.zs</p>
   </a>
 
-  <div class="flex flex-row gap-5 mt-3">
+  <div *ngIf="!isUserAuthenticated()" class="flex flex-row gap-5 mt-3">
     <a [routerLink]="['/']" class="cursor-pointer no-underline">
       <p class='nav_link'>Features</p>
     </a>
