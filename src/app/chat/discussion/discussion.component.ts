@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class DiscussionComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
-  saleForm: FormGroup;
+  messageForm: FormGroup;
 
   users: UserModel[] = [
     { userId: 'Sender 1', email: 'user1@email.com' },
@@ -20,25 +20,25 @@ export class DiscussionComponent implements OnInit {
   ];
 
   constructor(private router: Router, private route: ActivatedRoute) {
-    this.saleForm = new FormGroup({
+    this.messageForm = new FormGroup({
       selectedUser: new FormControl('', Validators.required),
       message: new FormControl('', Validators.required)
     });
   }
 
   ngOnInit(): void {
-    console.log(this.users); // Optional: to check if users are loaded
+    console.log(this.users);
   }
 
   send(): void {
-    if (this.saleForm.valid) {
-      const saleData = this.saleForm.value;
-      console.log(saleData); // Log the form data
+    if (this.messageForm.valid) {
+      const msgData = this.messageForm.value;
+      console.log(msgData); // Log the form data
       this.successMessage = 'Message sent successfully';
       setTimeout(() => {
         this.successMessage = '';
       }, 1500);
-      this.saleForm.reset();
+      this.messageForm.reset();
     } else {
       this.errorMessage = 'Please fill out the form correctly.';
       setTimeout(() => {
