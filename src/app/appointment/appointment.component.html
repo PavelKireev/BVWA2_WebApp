@@ -1,4 +1,4 @@
-﻿<div class="mt-8">
+﻿<div *ngIf="appointmentTable?.length" class="mt-8">
 
   <div class="relative bg-gray-100 rounded-3xl overflow-hidden shadow-md">
 
@@ -11,8 +11,8 @@
              text-gray-700 rounded-tl-3xl rounded-br-2xl rounded-tr-2xl">
       Appointments</h4>
     <div class="py-8 px-16 mx-auto max-w-screen-xl flex flex-row justify-evenly items-center gap-5 relative">
-      <div *ngIf="appointmentTable?.length"
-           class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div
+        class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="overflow-hidden rounded-2xl shadow-md mb-6">
             <table class="w-full text-sm text-left text-gray-900">
@@ -43,16 +43,16 @@
                      class="font-normal bg-gray-100 divide-y">
               <tr>
                 <th scope="row" class="px-6 py-4">
-                  {{i + 1}}
+                  {{ i + 1 }}
                 </th>
                 <td class="px-6 py-4">
-                  {{appointment.doctorName}}
+                  {{ appointment.doctorName }}
                 </td>
                 <td class="px-6 py-4">
-                  {{appointment.patientName}}
+                  {{ appointment.patientName }}
                 </td>
                 <td class="px-6 py-4">
-                  {{appointment.time | date: 'yyyy-MM-dd HH:mm'}}
+                  {{ appointment.time | date: 'yyyy-MM-dd HH:mm' }}
                 </td>
                 <td *ngIf="isDoctor() || isAdmin()" class="px-6 py-4">
                   <button (click)="delete($event, appointment.uuid)"
@@ -77,7 +77,8 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isDoctor() || isAdmin()" class="flex flex-column justify-center bg-indigo-100/80 rounded-3xl shadow-md">
+      <div *ngIf="isDoctor() || isAdmin()"
+           class="flex flex-column justify-center bg-indigo-100/80 rounded-3xl shadow-md">
         <div class="grid gap-3 md:grid-cols-3 p-4">
           <div>
             <select #doctorSelector
@@ -134,6 +135,17 @@
           Submit
         </button>
       </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!appointmentTable?.length">
+  <div class="absolute left-[10rem]">
+    <h2 class="text-heading1-semibold font-medium text-gray-50">Appointments</h2>
+  </div>
+  <div class="flex justify-center items-center h-[80vh]">
+    <div class="flex flex-col items-center gap-y-3">
+      <img class="w-2/12" src="assets/assets/sleeping.svg" alt="empty">
+      <h2 class="text-heading1-semibold font-medium text-gray-800">Appointments seems empty...</h2>
     </div>
   </div>
 </div>
