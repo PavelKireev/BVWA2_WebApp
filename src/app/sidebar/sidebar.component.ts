@@ -52,12 +52,10 @@ export class SidebarComponent implements OnInit {
                                                                       : link.imgURL
           });
         } else {
-          if (newMessagesAvailable) {
             this.sidebarLinks.forEach(link => {
               link.imgURL = link.imgURL === '/assets/assets/unread.svg' ? '/assets/assets/letter.svg'
                                                                         : link.imgURL
             });
-          }
         }
       });
   }
