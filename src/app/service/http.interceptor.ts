@@ -20,9 +20,20 @@ export class HttpInterceptor implements HttpInterceptor {
 
     let token = sessionStorage.getItem("app.token");
     if (token) {
-      if(req.url.startsWith('appointments/available')) {
+      if (req.url.startsWith('appointments/available')) {
         req = req.clone({
           url: `http://localhost:8081/${req.url}`,
+        });
+      } else if (req.url.startsWith('api/user/update-profile-photo')) {
+        req = req.clone({
+          url: `http://localhost:8080/${req.url}`,
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+          }
         });
       } else {
         req = req.clone({

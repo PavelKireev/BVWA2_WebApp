@@ -11,7 +11,7 @@
                 <img src="assets/assets/expand.svg" class="w-7 h-7" alt="Expand">
               </ng-template>
             </button>
-            <span class="text-base1-semibold">{{ item.sender }}</span>
+            <span class="text-base1-semibold">{{ item.userEmailFrom }}</span>
           </div>
           <div>
             <button
@@ -29,10 +29,10 @@
         </div>
         <div class="pt-2.5 pr-2.5 pl-2.5">
           <div *ngIf="item.isExpanded">
-            <p class="whitespace-pre-wrap">{{ item.body }}</p>
+            <p class="whitespace-pre-wrap">{{ item.content }}</p>
           </div>
           <div *ngIf="!item.isExpanded">
-            <p class="whitespace-pre-wrap">{{ item.body | slice:0:140 }}{{ item.body.length > 140 ? '...' : '' }}</p>
+            <p class="whitespace-pre-wrap">{{ item.content | slice:0:140 }}{{ item.content.length > 140 ? '...' : '' }}</p>
           </div>
         </div>
         <div class="flex justify-between items-center p-1">
@@ -46,7 +46,7 @@
           </button>
           <div class="p-1">
             <span class="text-small-regular font-semibold text-gray-600">
-              {{ item.date | date: 'd MMM yyyy \'at\' hh:mm a' }}
+              {{ item.time | date: 'd MMM yyyy \'at\' hh:mm a' }}
             </span>
           </div>
         </div>

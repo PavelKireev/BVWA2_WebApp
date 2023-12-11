@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { JwtModule } from "@auth0/angular-jwt";
@@ -23,14 +23,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { WorkingHoursComponent } from './working-hours/working-hours.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { WorkingHoursService } from './service/working-hours.service';
-import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
-import {HttpInterceptor} from "./service/http.interceptor";
-import {NotFoundComponent} from "./error-pages/not-found.component";
-import {LandingComponent} from "./landing/landing.component";
-import {SidebarComponent} from "./sidebar/sidebar.component";
-import {PasswordChangeComponent} from "./password-change/password-change.component";
-import {ChatComponent} from "./chat/chat.component";
-import {DiscussionComponent} from "./chat/discussion/discussion.component";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from "@angular/material/snack-bar";
+import { HttpInterceptor } from "./service/http.interceptor";
+import { NotFoundComponent } from "./error-pages/not-found.component";
+import { LandingComponent } from "./landing/landing.component";
+import { SidebarComponent } from "./sidebar/sidebar.component";
+import { PasswordChangeComponent } from "./password-change/password-change.component";
+import { ChatComponent } from "./chat/chat.component";
+import { DiscussionComponent } from "./chat/discussion/discussion.component";
+import { ChatService } from "./service/chat-service/chat-showcase.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
@@ -99,6 +100,7 @@ export function tokenGetter() {
     AuthGuard,
     MatDatepickerModule,
     AuthService,
+    ChatService,
     WorkingHoursService,
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../service/auth.service";
+import { AuthService } from "../service/auth.service";
 import { Router } from "@angular/router";
+import { ChatService } from "../service/chat-service/chat-showcase.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,8 +11,10 @@ import { Router } from "@angular/router";
 export class SidebarComponent implements OnInit {
   public sidebarLinks : any[] = [];
 
-  constructor(private authService: AuthService, private router: Router) {
-
+  constructor(private authService: AuthService,
+              private router: Router,
+              private chatService: ChatService
+  ) {
       if (authService.isAdmin()) {
           this.sidebarLinks = [
               {route: '/my-profile', imgURL: '/assets/assets/user.svg', name: 'Profile'},
@@ -19,7 +22,6 @@ export class SidebarComponent implements OnInit {
               {route: '/create-user', imgURL: '/assets/assets/plus.svg', name: 'Create User'},
               {route: '/list/doctor', imgURL: '/assets/assets/doctors.svg', name: 'Doctors'},
               {route: '/list/patient', imgURL: '/assets/assets/members.svg', name: 'Patients'},
-              {route: '/inbox', imgURL: '/assets/assets/unread.svg', name: 'Inbox'},
               {route: '/inbox', imgURL: '/assets/assets/letter.svg', name: 'Inbox'},
               {route: '/outbox', imgURL: '/assets/assets/pen.svg', name: 'Outbox'}
           ];
@@ -42,7 +44,21 @@ export class SidebarComponent implements OnInit {
               {route: '/outbox', imgURL: '/assets/assets/pen.svg', name: 'Outbox'}
           ];
       }
-    }
+
+      this.chatService.notifyNewMessagesAvailable.subscribe((newMessagesAvailable: boolean) => {
+        if (newMessagesAvailable) {
+          this.sidebarLinks.forEach(link => {
+            link.imgURL = link.imgURL === '/assets/assets/letter.svg' ? '/assets/assets/unread.svg'
+                                                                      : link.imgURL
+          });
+        } else {
+            this.sidebarLinks.forEach(link => {
+              link.imgURL = link.imgURL === '/assets/assets/unread.svg' ? '/assets/assets/letter.svg'
+                                                                        : link.imgURL
+            });
+        }
+      });
+  }
 
   get isUserAuthenticated(): boolean {
     return this.authService.isUserAuthenticated();
