@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import {ChatService} from "../service/chat-service/chat-showcase.service";
 
 @Component({
   selector: 'app-chat',
@@ -10,33 +12,35 @@ export class ChatComponent implements OnInit {
   messageContent: string = '';
   showMessage: boolean = false;
 
-  inboxItems: InboxItem[] = [
-    { sender: 'Sender 1', body: 'This is the body of the second message. This is the body of the second message. ' +
-        'This is the body of the second message. This is the body of the second message. ' +
-        'This is the body of the second message. This is the body of the second message.', isExpanded: false , date: new Date()},
-    { sender: 'Sender 2', body: 'This is the body of the second message.', isExpanded: false , date: new Date()},
-    { sender: 'Sender 3', body: 'This is the body of the second message.', isExpanded: false , date: new Date()},
+  inboxItems: InboxItem[] = [];
 
-    // ... more items
-  ];
-
-  constructor() {
+  constructor(private httpClient: HttpClient,
+              private chatService: ChatService
+  ) {
     setTimeout(() => {
       this.showMsg = true;
-    }, );
+      },);
   }
 
   ngOnInit(): void {
+    this.httpClient.get<InboxItem[]>('api/message/inbox')
+                   .subscribe({
+                     next: (response) => {
+                       this.inboxItems = response;
+                       this.chatService.notifyNewMessagesAvailable.next(false);
+                     }
+                   });
   }
+
   toggleExpand(index: number): void {
-    this.inboxItems[index].isExpanded = !this.inboxItems[index].isExpanded;
+      this.inboxItems[index].isExpanded = !this.inboxItems[index].isExpanded;
   }
 }
 
 interface InboxItem {
-  sender: string;
-  body: string;
+  userEmailFrom: string;
+  content: string;
   isExpanded: boolean;
-  date?: Date;
+  time?: Date;
 }
 
