@@ -1,4 +1,4 @@
-﻿<div *ngIf="appointmentTable?.length" class="mt-8">
+﻿<div class="mt-8">
 
   <div class="relative bg-gray-100 rounded-3xl overflow-hidden shadow-md">
 
@@ -10,9 +10,9 @@
       class="relative px-2 py-1 max-w-fit bg-white/40 font-semibold
              text-gray-700 rounded-tl-3xl rounded-br-2xl rounded-tr-2xl">
       Appointments</h4>
-    <div class="py-8 px-16 mx-auto max-w-screen-xl flex flex-row justify-evenly items-center gap-5 relative">
-      <div
-        class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-8 px-16 mx-auto max-w-screen-xl flex flex-col-reverse justify-evenly items-center gap-5 relative">
+      <div *ngIf="appointmentTable?.length"
+           class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="overflow-hidden rounded-2xl shadow-md mb-6">
             <table class="w-full text-sm text-left text-gray-900">

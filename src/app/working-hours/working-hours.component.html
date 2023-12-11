@@ -8,7 +8,7 @@
     <h4
       class="relative px-2 py-1 max-w-fit bg-white/40 font-semibold text-gray-700 rounded-tl-3xl rounded-br-2xl rounded-tr-2xl">
       My working hours</h4>
-    <div class="py-8 px-16 mx-auto max-w-screen-xl flex flex-row justify-evenly items-center gap-5 relative">
+    <div class="py-8 px-16 mx-auto max-w-screen-xl flex flex-column-reverse justify-evenly items-center gap-5 relative">
       <div *ngIf="list | async as workingHoursList"
            class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -81,6 +81,7 @@
                     name="daySelector"
                     required>
               <option value="" disabled selected>Day of the week</option>
+
               <option class="font-medium p-2.5 rounded-3xl border-indigo-400"
                       *ngFor="let day of days" [value]="day">
                 {{ day }}
