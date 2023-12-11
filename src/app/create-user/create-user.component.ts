@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Component, OnInit, Output} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, Output} from "@angular/core";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import configurl from '../../assets/config/config.json';
@@ -15,11 +15,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.css']
 })
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent {
   private readonly baseUrl: string = configurl.apiServer.url + "/api/user/";
-  userForm!: FormGroup;
+  passwordMismatch: boolean = false;
+  submitClicked: boolean = false;
   @Output() public user: UserCreateDto = new UserCreateDto();
-  // passwordForm!: FormGroup;
+  userForm!: FormGroup;
   @Output() roles: Role[] = [{value: 'DOCTOR', viewValue: 'Doctor'}, {value: 'PATIENT', viewValue: 'Patient'}];
 
   constructor(private authService: AuthService,
@@ -27,49 +28,32 @@ export class CreateUserComponent implements OnInit {
               private httpClient: HttpClient,
               private passConfValidator: PasswordConfirmationValidatorService,
               private router: Router,
-              private snackBar: MatSnackBar,
-              private fb: FormBuilder) {
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
-    this.initForm();
-  }
-
-  private initForm(): void {
-    this.userForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      phoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{10}$")]),
-      email: ['', [Validators.required, Validators.email]],
-      roleSelector: ['', Validators.required],
-      officeNumber: [''], // Conditionally required
-      birthDate: [''], // Conditionally required
-      insuranceNumber: [''], // Conditionally required
-      password: ['', Validators.required],
-      confirm: ['', Validators.required]
+    this.userForm = new FormGroup({
+      password: new FormControl('', [Validators.required]),
+      confirm: new FormControl('')
     });
-      this.userForm.get('confirm')?.setValidators([
-        Validators.required, this.passConfValidator.validateConfirmPassword(this.userForm?.get('password'))
-      ]);
-
-
-    // Logic to handle conditional validators
-    this.userForm.get('roleSelector')?.valueChanges.subscribe(value => {
-      if (value === 'DOCTOR') {
-        this.userForm.get('officeNumber')?.setValidators(Validators.required);
-        this.userForm.get('birthDate')?.clearValidators();
-        this.userForm.get('insuranceNumber')?.clearValidators();
-      } else if (value === 'PATIENT') {
-        this.userForm.get('birthDate')?.setValidators(Validators.required);
-        this.userForm.get('insuranceNumber')?.setValidators(Validators.required);
-        this.userForm.get('officeNumber')?.clearValidators();
-      }
-      this.userForm.get('officeNumber')?.updateValueAndValidity();
-      this.userForm.get('birthDate')?.updateValueAndValidity();
-      this.userForm.get('insuranceNumber')?.updateValueAndValidity();
+    this.userForm.get('confirm')?.setValidators([
+        Validators.required, this.passConfValidator.validateConfirmPassword(this.userForm?.get('password'))]);
+    this.userForm.get('password')?.valueChanges.subscribe(() => {
+      this.checkPasswords();
+    });
+    this.userForm.get('confirm')?.valueChanges.subscribe(() => {
+      this.checkPasswords();
+    });
+    this.userForm.valueChanges.subscribe(() => {
+      this.submitClicked = false;
     });
   }
 
+  checkPasswords(): void {
+    const password = this.userForm.get('password')?.value;
+    const confirmPassword = this.userForm.get('confirm')?.value;
+    this.passwordMismatch = password !== confirmPassword;
+  }
 
   isUserAuthenticated(): boolean {
     const token = sessionStorage.getItem("app.token");
@@ -89,9 +73,16 @@ export class CreateUserComponent implements OnInit {
   }
 
   public update(user: UserCreateDto, passwordFormValue: any, role: string): void {
+    this.submitClicked = true;
+
+    if (this.passwordMismatch) {
+      return;
+    }
+
     const formValues = {...passwordFormValue};
     user.password = formValues.password;
     user.role = role;
+
     this.httpClient.post(`api/${role.toLowerCase()}/create`, JSON.stringify(user), {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
@@ -99,6 +90,12 @@ export class CreateUserComponent implements OnInit {
     }).subscribe({
       next: (_) => this.snackBar.open(`User successfully created: ${user.email}`, "OK")
     });
+
+    this.submitClicked = false;
+  }
+
+  cancel(): void {
+    this.passwordMismatch = false
   }
 
 }
