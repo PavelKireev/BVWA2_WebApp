@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Component, Output} from "@angular/core";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit, Output} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import configurl from '../../assets/config/config.json';
@@ -15,11 +15,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.css']
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnInit {
   private readonly baseUrl: string = configurl.apiServer.url + "/api/user/";
-
+  userForm!: FormGroup;
   @Output() public user: UserCreateDto = new UserCreateDto();
-  passwordForm!: FormGroup;
+  // passwordForm!: FormGroup;
   @Output() roles: Role[] = [{value: 'DOCTOR', viewValue: 'Doctor'}, {value: 'PATIENT', viewValue: 'Patient'}];
 
   constructor(private authService: AuthService,
@@ -27,17 +27,49 @@ export class CreateUserComponent {
               private httpClient: HttpClient,
               private passConfValidator: PasswordConfirmationValidatorService,
               private router: Router,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.passwordForm = new FormGroup({
-      password: new FormControl('', [Validators.required]),
-      confirm: new FormControl('')
-    });
-    this.passwordForm.get('confirm')?.setValidators([
-        Validators.required, this.passConfValidator.validateConfirmPassword(this.passwordForm?.get('password'))]);
+    this.initForm();
   }
+
+  private initForm(): void {
+    this.userForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{10}$")]),
+      email: ['', [Validators.required, Validators.email]],
+      roleSelector: ['', Validators.required],
+      officeNumber: [''], // Conditionally required
+      birthDate: [''], // Conditionally required
+      insuranceNumber: [''], // Conditionally required
+      password: ['', Validators.required],
+      confirm: ['', Validators.required]
+    });
+      this.userForm.get('confirm')?.setValidators([
+        Validators.required, this.passConfValidator.validateConfirmPassword(this.userForm?.get('password'))
+      ]);
+
+
+    // Logic to handle conditional validators
+    this.userForm.get('roleSelector')?.valueChanges.subscribe(value => {
+      if (value === 'DOCTOR') {
+        this.userForm.get('officeNumber')?.setValidators(Validators.required);
+        this.userForm.get('birthDate')?.clearValidators();
+        this.userForm.get('insuranceNumber')?.clearValidators();
+      } else if (value === 'PATIENT') {
+        this.userForm.get('birthDate')?.setValidators(Validators.required);
+        this.userForm.get('insuranceNumber')?.setValidators(Validators.required);
+        this.userForm.get('officeNumber')?.clearValidators();
+      }
+      this.userForm.get('officeNumber')?.updateValueAndValidity();
+      this.userForm.get('birthDate')?.updateValueAndValidity();
+      this.userForm.get('insuranceNumber')?.updateValueAndValidity();
+    });
+  }
+
 
   isUserAuthenticated(): boolean {
     const token = sessionStorage.getItem("app.token");
@@ -49,11 +81,11 @@ export class CreateUserComponent {
   }
 
   public validateControl = (controlName: string) => {
-    return this.passwordForm?.get(controlName)?.invalid && this.passwordForm?.get(controlName)?.touched
+    return this.userForm?.get(controlName)?.invalid && this.userForm?.get(controlName)?.touched
   }
 
   public hasError = (controlName: string, errorName: string) => {
-    return this.passwordForm?.get(controlName)?.hasError(errorName)
+    return this.userForm?.get(controlName)?.hasError(errorName)
   }
 
   public update(user: UserCreateDto, passwordFormValue: any, role: string): void {

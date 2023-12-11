@@ -20,47 +20,80 @@
           <h2 class="text-heading2-semibold text-gray-700">
             Sign in to Norman.zs
           </h2>
-          <div *ngIf="invalidLogin" class="alert alert-danger">Wasn't your password or email?</div>
-          <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="space-y-6">
+          <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-6 flex flex-column ">
             <div>
-              <label for="email"
-                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+              <label *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" for="email"
+                     class="block mb-2 text-sm font-medium text-red-600">Email</label>
+              <label *ngIf="!loginForm.get('email')?.invalid || !loginForm.get('email')?.touched" for="email"
+                     class="block mb-2 text-sm font-medium text-gray-900">Email</label>
               <input type="email"
                      id="email"
+                     formControlName="email"
                      name="email"
                      placeholder="username@email.com"
-                     ngModel
                      autofocus
                      aria-label="Email address"
-                     class="form-input-store border-indigo-400 border-2" required>
+                     [class]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+                     ? 'form-input-store bg-white/70 text-sm border-2 border-red-600'
+                     : 'form-input-store text-sm border-2 border-indigo-400'"
+                     required>
+              <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                   class="mt-2 text-sm text-red-600 dark:text-red-500">
+                Wrong email format...
+              </div>
             </div>
             <div>
-              <label for="password"
-                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+              <label *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" for="password"
+                     class="block mb-2 text-sm font-medium text-red-600">Password</label>
+              <label *ngIf="!loginForm.get('password')?.invalid || !loginForm.get('password')?.touched" for="password"
+                     class="block mb-2 text-sm font-medium text-gray-900">Password</label>
               <input type="password"
                      id="password"
+                     formControlName="password"
                      name="password"
-                     ngModel
                      aria-label="Password"
                      placeholder="••••••••"
-                     class="form-input-store border-indigo-400 border-2" required>
+                     [class]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+                     ? 'form-input-store bg-white/70 text-sm border-2 border-red-600'
+                     : 'form-input-store text-sm border-2 border-indigo-400'"
+                     required>
+              <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                   class="mt-2 text-sm text-red-600 dark:text-red-500">
+                Wrong password format...
+              </div>
             </div>
-            <button class="flex flex-row ease-in-out text-white text-base-regular bg-indigo-400
-                           hover:bg-indigo-400/70 border-2 border-indigo-400/30 hover:border-indigo-400/50
-                           active:bg-indigo-400/60 rounded-full px-6 py-1 max-md:hidden shadow-md"
-                    type="submit">
+            <button type="submit"
+                    class="w-full px-5 py-1.5 text-base-medium font-bold text-white bg-violet-400 transition-colors duration-200 border-2 border-violet-600/30 rounded-3xl sm:w-auto hover:bg-violet-500 active:bg-violet-600/70">
               Sign in
             </button>
             <div class="text-sm font-medium text-gray-700">
               Not registered? <a [routerLink]="['/registration']"
                                  routerLinkActive="active"
                                  [routerLinkActiveOptions]="{exact: true}"
-                                 class="text-base-medium no-underline text-slate-700 hover:text-indigo-600 hover:underline">
+                                 class="w-full text-base-medium no-underline text-slate-700 hover:text-indigo-600 hover:underline">
               Create account</a>
             </div>
           </form>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div *ngIf="invalidLogin" class="z=50 absolute bottom-4 right-4">
+  <div id="toast-default" class="flex items-center w-full p-4 gap-x-2 border-2 border-slate-200 text-gray-900 bg-slate-100 rounded-lg shadow-lg" role="alert">
+    <div class="inline-flex items-center justify-center rounded-lg">
+      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+        <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.147 15.085a7.159 7.159 0 0 1-6.189 3.307A6.713 6.713 0 0 1 3.1 15.444c-2.679-4.513.287-8.737.888-9.548A4.373 4.373 0 0 0 5 1.608c1.287.953 6.445 3.218 5.537 10.5 1.5-1.122 2.706-3.01 2.853-6.14 1.433 1.049 3.993 5.395 1.757 9.117Z"/>
+      </svg>
+      <span class="sr-only">Fire icon</span>
+    </div>
+    <div class="ms-3 text-sm font-normal whitespace-nowrap">Wasn't your password or email?</div>
+    <button (click)="cancel()" class="ms-auto -mx-1.5 -my-1.5 bg-none text-gray-400 rounded-lg focus:ring-0 focus:ring-gray-300 p-1.5 hover:text-red-600 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#toast-default" aria-label="Close">
+      <span class="sr-only">Close</span>
+      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+    </button>
   </div>
 </div>

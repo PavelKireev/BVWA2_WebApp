@@ -11,7 +11,6 @@ import configurl from '../../../assets/config/config.json';
   styleUrls: ['./register-user.component.css']
 })
 export class RegisterUserComponent implements OnInit {
-
   registerForm!: FormGroup;
   errorMessage: string = '';
   showError: boolean = false;
@@ -25,16 +24,11 @@ export class RegisterUserComponent implements OnInit {
   url = 'api/authentication/';
 
   ngOnInit(): void {
-    const passwordPattern = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
-
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern(passwordPattern)
-      ]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
       confirm: new FormControl('')
     });
     this.registerForm.get('confirm')?.setValidators([Validators.required,this.passConfValidator.validateConfirmPassword(this.registerForm?.get('password'))]);
@@ -71,6 +65,10 @@ export class RegisterUserComponent implements OnInit {
         this.showError = true;
       }
     });
+  }
+
+  cancel(): void {
+    this.showError = false
   }
 }
 

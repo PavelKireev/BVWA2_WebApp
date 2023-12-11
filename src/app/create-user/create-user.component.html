@@ -117,6 +117,27 @@
         Birth date is required.
       </div>
     </div>
+    <div *ngIf="user.role === 'PATIENT'">
+      <label
+        [class]="insuranceNumber.invalid && insuranceNumber.touched ? 'block mb-2 text-sm font-medium text-red-600'
+                                                              : 'block mb-2 text-sm font-medium text-gray-700'"
+        for="userInsuranceNumber">Insurance number</label>
+      <input type="number"
+             id="userInsuranceNumber"
+             [(ngModel)]="user.insuranceNumber"
+             name="userInsuranceNumber"
+             placeholder="e.g. 333"
+             [ngModelOptions]="{standalone:true}"
+             value="{{user.insuranceNumber}}"
+             [class]="insuranceNumber.invalid && insuranceNumber.touched ? 'form-input-store text-sm border-2 border-red-600'
+                                                                   : 'form-input-store text-sm border-2 border-indigo-400'"
+             #insuranceNumber="ngModel"
+             required>
+      <div *ngIf="insuranceNumber.invalid && insuranceNumber.touched"
+           class="mt-2 text-sm text-red-600 dark:text-red-500">
+        Insurance number is required.
+      </div>
+    </div>
   </div>
   <div>
     <label
@@ -140,49 +161,49 @@
       A valid email is required.
     </div>
   </div>
-  <form class="space-y-6 mt-6" [formGroup]="passwordForm" autocomplete="off" novalidate>
+  <form class="space-y-6 mt-6" [formGroup]="userForm" autocomplete="off" novalidate>
     <div>
-      <label *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched" for="password"
+      <label *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" for="password"
              class="block mb-2 text-sm font-medium text-red-600">Password</label>
-      <label *ngIf="!passwordForm.get('password')?.invalid || !passwordForm.get('password')?.touched"
+      <label *ngIf="!userForm.get('password')?.invalid || !userForm.get('password')?.touched"
              for="password"
              class="block mb-2 text-sm font-medium text-gray-700">Password</label>
       <input type="password"
              id="password"
              formControlName="password"
              placeholder="••••••••"
-             [class]="passwordForm.get('password')?.invalid &&
-              passwordForm.get('password')?.touched ? 'form-input-store text-sm border-2 border-red-600'
+             [class]="userForm.get('password')?.invalid &&
+              userForm.get('password')?.touched ? 'form-input-store text-sm border-2 border-red-600'
                                                     : 'form-input-store text-sm border-2 border-indigo-400'"
              required>
-      <div *ngIf="passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched"
+      <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched"
            class="mt-2 text-sm text-red-600 dark:text-red-500">
         <span *ngIf="validateControl('password') &&
         hasError('password', 'required')">Password is required.</span>
       </div>
     </div>
     <div>
-      <label *ngIf="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched" for="password"
+      <label *ngIf="userForm.get('confirm')?.invalid && userForm.get('confirm')?.touched" for="password"
              class="block mb-2 text-sm font-medium text-red-600">Confirm Password</label>
-      <label *ngIf="!passwordForm.get('confirm')?.invalid || !passwordForm.get('confirm')?.touched"
+      <label *ngIf="!userForm.get('confirm')?.invalid || !userForm.get('confirm')?.touched"
              for="confirm"
              class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>
       <input type="password"
              id="confirm"
              formControlName="confirm"
              placeholder="••••••••"
-             [class]="passwordForm.get('confirm')?.invalid &&
-              passwordForm.get('confirm')?.touched ? 'form-input-store text-sm border-2 border-red-600'
+             [class]="userForm.get('confirm')?.invalid &&
+              userForm.get('confirm')?.touched ? 'form-input-store text-sm border-2 border-red-600'
                                                    : 'form-input-store text-sm border-2 border-indigo-400'"
              required>
-      <div *ngIf="passwordForm.get('confirm')?.invalid && passwordForm.get('confirm')?.touched"
+      <div *ngIf="userForm.get('confirm')?.invalid && userForm.get('confirm')?.touched"
            class="mt-2 text-sm text-red-600 dark:text-red-500">
         Password confirmation is required.
       </div>
     </div>
     <button type="submit"
-            (click)="update(user, passwordForm.value, roleSelector.value)"
-            [disabled]="!passwordForm.valid"
+            (click)="update(user, userForm.value, roleSelector.value)"
+            [disabled]="!userForm.valid"
             class="disabled:bg-indigo-50 disabled:text-purple-300 ease-in-out text-indigo-600 transition-colors text-heading4-medium bg-indigo-100/90 hover:bg-indigo-200/50 border-2 border-indigo-200/30 hover:border-indigo-200/50 active:bg-indigo-200/60 rounded-3xl px-16 py-1.5 max-md:hidden shadow-md">
       Submit
     </button>
